@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by DCS_DataCartridge.rc
+// Used by JTFF_DTC.rc
 
 // Valeurs par défaut suivantes des nouveaux objets
 // 
