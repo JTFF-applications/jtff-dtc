@@ -19,7 +19,7 @@ struct ConnectorCreator {
 };
 
 struct Waypoint {
-	std::string N, E, S, W, ALT, NAME, TOT;
+	std::string N, E, S, W, ALT, NAME;
 };
 
 class BaseConnector

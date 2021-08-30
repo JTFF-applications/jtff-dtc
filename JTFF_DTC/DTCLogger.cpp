@@ -26,7 +26,7 @@ void DTCLogger::info(const std::string& msg)
     std::string dateTime(30, '\0');
     std::strftime(&dateTime[0], dateTime.size(), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
-    buf << dateTime << " INFO" << std::setw(msg.size() + 5) << msg << std::endl;
+    buf << dateTime << " INFO" << std::setw(15) << msg << std::endl;
     m_file << buf.str();
 }
 
@@ -38,7 +38,7 @@ void DTCLogger::debug(const std::string& msg)
     std::string dateTime(30, '\0');
     std::strftime(&dateTime[0], dateTime.size(), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
-    buf << dateTime << " DEBUG" << std::setw(msg.size() + 5) << msg << std::endl;
+    buf << dateTime << " DEBUG" << std::setw(15) << msg << std::endl;
     m_file << buf.str();
 }
 
@@ -50,7 +50,7 @@ void DTCLogger::warning(const std::string& msg)
     std::string dateTime(30, '\0');
     std::strftime(&dateTime[0], dateTime.size(), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
-    buf << dateTime << " WARNING" << std::setw(msg.size() + 5) << msg << std::endl;
+    buf << dateTime << " WARNING" << std::setw(15) << msg << std::endl;
     m_file << buf.str();
 }
 
@@ -62,7 +62,7 @@ void DTCLogger::critical(const std::string& msg)
     std::string dateTime(30, '\0');
     std::strftime(&dateTime[0], dateTime.size(), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
-    buf << dateTime << " CRITICAL" << std::setw(msg.size() + 5) << msg << std::endl;
+    buf << dateTime << " CRITICAL" << std::setw(15) << msg << std::endl;
     m_file << buf.str();
     
     throw std::exception(msg.c_str());

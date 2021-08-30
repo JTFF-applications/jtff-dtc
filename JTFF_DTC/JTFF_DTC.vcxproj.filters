@@ -62,7 +62,13 @@
     <ClCompile Include="Windows\FileSelectorWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="HornetWindow.cpp">
+    <ClCompile Include="Windows\HornetWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DTCUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,6 +84,15 @@
     </ClInclude>
     <ClInclude Include="Connectors\BaseConnector.h">
       <Filter>Header Files\Connectors</Filter>
+    </ClInclude>
+    <ClInclude Include="DTCUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugixml.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +111,7 @@
     <QtUic Include="Windows\FileSelectorWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="HornetWindow.ui">
+    <QtUic Include="Windows\HornetWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -113,8 +128,8 @@
     <QtMoc Include="Windows\FileSelectorWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
-    <QtMoc Include="HornetWindow.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Windows\HornetWindow.h">
+      <Filter>Header Files\Windows</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

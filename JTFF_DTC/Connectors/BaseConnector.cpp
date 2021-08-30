@@ -59,8 +59,7 @@ Waypoint BaseConnector::parseCoords(const std::string& coords, const bool& IsNav
 
 	if (!IsNavgrid) {
 		res.ALT = infos[2];
-		res.TOT = infos[3];
-		res.NAME = infos[4];
+		res.NAME = infos[3];
 	}
 	return res;
 }

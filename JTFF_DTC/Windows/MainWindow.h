@@ -7,8 +7,7 @@
 #include "TomcatWindow.h"
 #include "../Connectors/BaseConnector.h"
 #include "../Connectors/TomcatConnector.h"
-#include "../DTCSettings.h"
-#include "../DTCLogger.h"
+#include "../DTCUtils.h"
 #include "ui_MainWindow.h"
 
 class MainWindow : public QMainWindow

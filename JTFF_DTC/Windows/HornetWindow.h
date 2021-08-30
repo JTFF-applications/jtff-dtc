@@ -1,23 +1,24 @@
-#ifndef TOMCATWINDOW_H
-#define TOMCATWINDOW_H
+#ifndef HORNETWINDOW_H
+#define HORNETWINDOW_H
 
 #include <QWidget>
-#include <QMessageBox>
-#include <Qt>
+#include <QListWidget>
 
 #include "../DTCUtils.h"
-#include "../Connectors/TomcatConnector.h"
-#include "ui_TomcatWindow.h"
+//#include "../Connectors/HornetConnector.h"
+#include "WaypointAddDialog.h"
+#include "FileSelectorWindow.h"
+#include "ui_HornetWindow.h"
 
-class TomcatWindow : public QWidget
+class HornetWindow : public QWidget
 {
 	Q_OBJECT
 
 public:
-	TomcatWindow(QWidget* parent, const ConnectorCreator& connector, DTCLogger* log, DTCSettings* settings);
-	~TomcatWindow();
+	HornetWindow(QWidget* parent, const ConnectorCreator& connector, DTCLogger* log, DTCSettings* settings);
+	~HornetWindow();
 
-public slots:
+/*/public slots:
 	void OpenWaypointDialog();
 	void AddWaypoint();
 	void RemoveWaypoint();
@@ -27,19 +28,19 @@ public slots:
 	void ImportFromFile();
 	void OpenSelectFileDiaglogCF();
 	void ImportFromCombatFilte();
-	void CancelAdd();
+	void CancelAdd();*/
 
 private:
 	void AddCFWaypoints();
 
 	std::map<std::string, std::map<std::string, std::string>> m_flightData;
 
-	Ui::TomcatWindow m_ui;
+	Ui::HornetWindow m_ui;
 
-	std::unordered_map<Tomcat::UsableWaypoints, std::string> m_waypoints;
+	std::unordered_map<unsigned int, std::string> m_waypoints;
 	std::vector<QListWidgetItem*> m_waypointListItems;
 
-	TomcatConnector m_connector;
+	//HornetConnector m_connector;
 	WaypointAddDialog* m_dialog;
 	FileSelectorWindow* m_selectWindow;
 
@@ -47,4 +48,4 @@ private:
 	DTCSettings* m_settings;
 };
 
-#endif //!TOMCATWINDOW_H
+#endif

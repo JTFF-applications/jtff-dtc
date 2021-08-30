@@ -23,15 +23,3 @@ MainWindow::~MainWindow()
     m_logger->debug("Deleting MainWindow...");
     delete m_tomcatWindow;
 }
-
-/*TomcatConnector tomcat(cc);
-
-    std::unordered_map<Tomcat::UsableWaypoints, std::string> wpts = {
-        {Tomcat::UsableWaypoints::WP1, "N24.32.6 E54.21.7 A1225 TITITUTU"},
-        {Tomcat::UsableWaypoints::IP, "N25.32.6 E54.21.7 A12 TOTO"},
-        {Tomcat::UsableWaypoints::ST, "N28.32.6 E57.21.7 A17530 ALPHA"}
-    };
-
-    Tomcat::NavgridParams navgrid = { "N24.32.6 E54.21.7 A1225 TITITUTU", 5, 180, 90 };
-
-    tomcat.enterNavgrid(navgrid);*/

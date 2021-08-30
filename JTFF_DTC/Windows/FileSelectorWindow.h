@@ -10,7 +10,7 @@
 #include <string>
 #include <libzippp/libzippp.h>
 
-#include "../DTCLogger.h"
+#include "../DTCUtils.h"
 #include "ui_FileSelectorWindow.h"
 
 class FileSelectorWindow : public QWidget

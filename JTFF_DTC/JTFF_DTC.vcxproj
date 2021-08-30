@@ -97,8 +97,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Connectors\TomcatConnector.cpp" />
-    <ClCompile Include="HornetWindow.cpp" />
+    <ClCompile Include="DTCUtils.cpp" />
+    <ClCompile Include="pugixml\pugixml.cpp" />
     <ClCompile Include="Windows\FileSelectorWindow.cpp" />
+    <ClCompile Include="Windows\HornetWindow.cpp" />
     <ClCompile Include="Windows\WaypointAddDialog.cpp" />
     <ClCompile Include="Windows\TomcatWindow.cpp" />
     <ClCompile Include="Windows\MainWindow.cpp" />
@@ -106,8 +108,8 @@
     <ClCompile Include="DTCSettings.cpp" />
     <ClCompile Include="DTCLogger.cpp" />
     <ClCompile Include="main.cpp" />
-    <QtUic Include="HornetWindow.ui" />
     <QtUic Include="Windows\FileSelectorWindow.ui" />
+    <QtUic Include="Windows\HornetWindow.ui" />
     <QtUic Include="Windows\WaypointAddDialog.ui" />
     <QtUic Include="Windows\TomcatWindow.ui" />
     <QtUic Include="Windows\MainWindow.ui" />
@@ -117,7 +119,10 @@
     <ClInclude Include="DTCSettings.h" />
     <ClInclude Include="DTCLogger.h" />
     <ClInclude Include="Connectors\TomcatConnector.h" />
-    <QtMoc Include="HornetWindow.h" />
+    <ClInclude Include="DTCUtils.h" />
+    <ClInclude Include="pugixml\pugiconfig.hpp" />
+    <ClInclude Include="pugixml\pugixml.hpp" />
+    <QtMoc Include="Windows\HornetWindow.h" />
     <QtMoc Include="Windows\FileSelectorWindow.h" />
     <QtMoc Include="Windows\TomcatWindow.h" />
     <QtMoc Include="Windows\WaypointAddDialog.h" />

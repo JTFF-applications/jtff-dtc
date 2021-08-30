@@ -3,8 +3,7 @@
 
 #include <QWidget>
 
-#include "../DTCLogger.h"
-#include "../DTCSettings.h"
+#include "../DTCUtils.h"
 #include "../Connectors/TomcatConnector.h"
 #include "ui_WaypointAddDialog.h"
 
@@ -13,7 +12,7 @@ class WaypointAddDialog : public QWidget
 	Q_OBJECT
 
 public:
-	WaypointAddDialog(QWidget *parent, DTCLogger* log, DTCSettings* settings);
+	WaypointAddDialog(QWidget* parent, const std::string& aircraft, DTCLogger* log, DTCSettings* settings);
 	~WaypointAddDialog();
 
 	Ui::WaypointAddDialog m_ui;

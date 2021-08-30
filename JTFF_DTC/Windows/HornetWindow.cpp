@@ -1,14 +1,14 @@
-#include "TomcatWindow.h"
+#include "HornetWindow.h"
 
-TomcatWindow::TomcatWindow(QWidget *parent, const ConnectorCreator& connector, DTCLogger* log, DTCSettings* settings)
-	: QWidget(parent), m_logger(log), m_settings(settings), m_connector(TomcatConnector(connector))
+HornetWindow::HornetWindow(QWidget* parent, const ConnectorCreator& connector, DTCLogger* log, DTCSettings* settings)
+	: QWidget(parent), m_logger(log), m_settings(settings)//, m_connector(HornetConnector(connector))
 {
-	m_logger->debug("Creating TomcatWindow...");
+	/*m_logger->debug("Creating HornetWindow...");
 	m_ui.setupUi(this);
 
-	m_dialog = new WaypointAddDialog(nullptr, "TOMCAT", m_logger, m_settings);
+	m_dialog = new WaypointAddDialog(nullptr, "HORNET", m_logger, m_settings);
 
-	m_logger->debug("Linking Tomcat UI...");
+	m_logger->debug("Linking Hornet UI...");
 	connect(m_ui.AddWptButton, SIGNAL(clicked()), this, SLOT(OpenWaypointDialog()));
 	connect(m_ui.RemoveWptButton, SIGNAL(clicked()), this, SLOT(RemoveWaypoint()));
 	connect(m_ui.ModityWptButton, SIGNAL(clicked()), this, SLOT(ModifyWaypoint()));
@@ -19,33 +19,25 @@ TomcatWindow::TomcatWindow(QWidget *parent, const ConnectorCreator& connector, D
 
 	m_logger->debug("Linking WaypointEditor UI...");
 	connect(m_dialog->m_ui.Ok, SIGNAL(clicked()), this, SLOT(AddWaypoint()));
-	connect(m_dialog->m_ui.Cancel, SIGNAL(clicked()), this, SLOT(CancelAdd()));
+	connect(m_dialog->m_ui.Cancel, SIGNAL(clicked()), this, SLOT(CancelAdd()));*/
 }
 
-TomcatWindow::~TomcatWindow()
+HornetWindow::~HornetWindow()
 {
-	delete m_dialog;
 }
 
-void TomcatWindow::OpenWaypointDialog()
-{
-	if (m_waypointListItems.size() == 9) {
-		QMessageBox msgBox;
-		m_logger->warning("All possible waypoints entered.");
-		msgBox.setText("You have already entered all possible waypoints for the Tomcat.");
-		msgBox.exec();
-		return;
-	}
 
+/*void HornetWindow::OpenWaypointDialog()
+{
 	m_dialog->show();
 }
 
-void TomcatWindow::AddWaypoint()
+void HornetWindow::AddWaypoint()
 {
 	std::string latlong = m_dialog->m_ui.Position->text().toStdString();
 	std::string name = m_dialog->m_ui.Name->text().toStdString();
 	std::string alt = m_dialog->m_ui.Altitude->text().toStdString();
-	Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(m_dialog->m_ui.WP->currentText().toStdString());
+	auto wpt = Tomcat::StringToWP(m_dialog->m_ui.WP->currentText().toStdString());
 	m_logger->info("Adding waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + latlong + " ALT:" + alt);
 
 	m_waypoints[wpt] = m_dialog->m_ui.WP->currentText().toStdString() + " " + latlong + " " + alt + " " + name;
@@ -58,17 +50,13 @@ void TomcatWindow::AddWaypoint()
 	m_dialog->m_ui.Altitude->clear();
 	m_dialog->m_ui.WP->removeItem(m_dialog->m_ui.WP->findText(m_dialog->m_ui.WP->currentText()));
 
-	if (m_waypointListItems.size() < 9) {
-		if (m_flightData.size() != 0) {
-			m_flightData.erase(name);
-			AddCFWaypoints();
-		}
+	if (m_flightData.size() != 0 && m_waypointListItems.size() < 9) {
+		m_flightData.erase(name);
+		AddCFWaypoints();
 	}
-	else
-		OpenWaypointDialog(); // Opening MessageBox error
 }
 
-void TomcatWindow::RemoveWaypoint()
+void HornetWindow::RemoveWaypoint()
 {
 	auto selected = m_ui.WaypointstList->selectedItems();
 	for (auto item : selected) {
@@ -82,8 +70,8 @@ void TomcatWindow::RemoveWaypoint()
 	qDeleteAll(selected);
 }
 
-void TomcatWindow::ModifyWaypoint()
-{ 
+void HornetWindow::ModifyWaypoint()
+{
 	auto selected = m_ui.WaypointstList->selectedItems();
 	for (auto item : selected) {
 		// Set dialog Window
@@ -115,7 +103,7 @@ void TomcatWindow::ModifyWaypoint()
 	OpenWaypointDialog();
 }
 
-void TomcatWindow::ExportToAircraft()
+void HornetWindow::ExportToAircraft()
 {
 	Tomcat::NavgridParams navgrid;
 	if (m_ui.NG_Enable->isChecked()) {
@@ -131,115 +119,76 @@ void TomcatWindow::ExportToAircraft()
 	m_connector.enterWaypoints(m_waypoints);
 }
 
-void TomcatWindow::ExportToFile()
+void HornetWindow::ExportToFile()
 {
-	pugi::xml_document doc;
-	auto declarationNode = doc.append_child(pugi::node_declaration);
-	declarationNode.append_attribute("version") = "1.0";
-	declarationNode.append_attribute("encoding") = "ISO-8859-1";
-	declarationNode.append_attribute("standalone") = "yes";
-
-	std::string fileName = QFileDialog::getSaveFileName(this, tr("Select path for file"), "", tr("Xml Files (*.xml)")).toStdString();
+	std::string fileName = QFileDialog::getSaveFileName(this, tr("Select path for file"), "", tr("Text Files (*.txt)")).toStdString();
 	if (fileName == "")
 		return;
 
-	auto root = doc.append_child("Aircraft");
-	root.append_attribute("name") = "F14";
+	std::fstream file;
+	file.open(fileName, std::ios::in | std::ios::out | std::ios::trunc);
 
-	auto navgrid = root.append_child("Navgrid");
-	navgrid.append_attribute("enabled") = m_ui.NG_Enable->isChecked() ? "true" : "false";
-	navgrid.append_attribute("center") = m_ui.NG_LatLong->text().toStdString().c_str();
-	navgrid.append_attribute("bearing") = m_ui.NG_Bearing->text().toStdString().c_str();
-	navgrid.append_attribute("width") = m_ui.NG_Width->text().toStdString().c_str();
-	navgrid.append_attribute("sectors") = std::to_string(m_ui.NG_Sectors->value()).c_str();
-
-	auto wpts = root.append_child("Waypoints");
 	for (auto item : m_waypoints) {
+		std::string line = item.second + "\n";
+		file << line;
+	}
+
+	if (m_ui.NG_Enable->isChecked()) {
+		std::string line = "NAVGRID " + m_ui.NG_LatLong->text().toStdString() + " " + m_ui.NG_Bearing->text().toStdString() + " " + m_ui.NG_Width->text().toStdString() + " " + std::to_string(m_ui.NG_Sectors->value());
+		file << line;
+	}
+
+	file.close();
+}
+
+void HornetWindow::ImportFromFile()
+{
+	std::string fileName = QFileDialog::getOpenFileName(this, tr("Open DTC file"), "", tr("Text Files (*.txt)")).toStdString();
+
+	std::ifstream file;
+	file.open(fileName);
+
+	std::string line;
+	while (getline(file, line)) {
+		bool isNAVGRID = false;
+		if (line._Starts_with("NAVGRID")) {
+			isNAVGRID = true;
+			line = line.substr(line.find_first_of(' ') + 1, line.size() - line.find_first_of(' ') - 1);
+		}
+
+		// Split line to get infos
 		std::vector<std::string> infos;
 		size_t pos = 0;
-		while ((pos = item.second.find(' ')) != std::string::npos) {
-			infos.push_back(item.second.substr(0, pos));
-			item.second.erase(0, pos + 1);
+		while ((pos = line.find(' ')) != std::string::npos) {
+			infos.push_back(line.substr(0, pos));
+			line.erase(0, pos + 1);
 		}
-		infos.push_back(item.second);
+		infos.push_back(line);
 
-		auto wpt = wpts.append_child("Waypoint");
-		wpt.append_attribute("type") = infos[0].c_str();
-		wpt.append_attribute("coordinates") = infos[1].c_str();
-		wpt.append_attribute("altitude") = infos[2].c_str();
-		wpt.append_attribute("name") = infos[3].c_str();
+		if (!isNAVGRID) {
+			// Use infos vector to add wpts
+			Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(infos[0]);
+			m_logger->info("Adding waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + infos[3] + " COORDS:" + infos[1] + " ALT:" + infos[2]);
+
+			m_waypoints[wpt] = infos[0] + " " + infos[1] + " " + infos[2] + " " + infos[4];
+			m_waypointListItems.push_back(new QListWidgetItem((infos[0] + " - " + infos[4]).c_str()));
+			m_ui.WaypointstList->addItem(m_waypointListItems[m_waypointListItems.size() - 1]);
+			m_dialog->m_ui.WP->removeItem(m_dialog->m_ui.WP->findText(infos[0].c_str()));
+		}
+		else {
+			// Use infos to add navgrid
+			m_ui.NG_Enable->setChecked(true);
+			m_ui.NG_LatLong->setText(infos[0].c_str());
+			m_ui.NG_Bearing->setValue(atoi(infos[1].c_str()));
+			m_ui.NG_Width->setValue(atoi(infos[2].c_str()));
+			m_ui.NG_Sectors->setValue(atoi(infos[3].c_str()));
+		}
 	}
 
-	bool saveSucceeded = doc.save_file(fileName.c_str(), PUGIXML_TEXT("  "));
-	if (!saveSucceeded)
-		m_logger->warning("Can't save xml file, check permissions ! This will not be saved !");
+	file.close();
 }
 
-void TomcatWindow::ImportFromFile()
-{
-	std::string fileName = QFileDialog::getOpenFileName(this, tr("Open DTC file"), "", tr("Xml Files (*.xml)")).toStdString();
-
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file(fileName.c_str(), pugi::parse_default | pugi::parse_declaration);
-	if (!result) {
-		QMessageBox mbox;
-		mbox.setText(("ERROR : Can't open xml file ! File:" + fileName).c_str());
-		mbox.show();
-
-		m_logger->warning("Failed to open selected file : " + fileName + " ! Canceling...");
-		return;
-	}
-
-	// Get root and check if aircraft is good
-	pugi::xml_node root = doc.document_element();
-	pugi::xpath_node aircraft = root.select_single_node("Aircraft");
-	if (aircraft)
-		if (aircraft.node().attribute("name").as_string() != "F14") {
-			QMessageBox mbox;
-			mbox.setText("This file is not for the tomcat ! You can't open it !");
-			mbox.show();
-
-			m_logger->warning("This file is not for the tomcat ! You can't open it !");
-			return;
-		}
-
-	// Waypoints
-	pugi::xpath_node_set wpts = root.select_nodes("Waypoint");
-	for (auto wpt : wpts) {
-		std::string type = wpt.node().attribute("type").as_string();
-		std::string pos = wpt.node().attribute("coordinates").as_string();;
-		std::string alt = wpt.node().attribute("altitude").as_string();;
-		std::string name = wpt.node().attribute("name").as_string();;
-
-		Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(type);
-		m_logger->info("Importing waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + pos + " ALT:" + alt);
-
-		m_waypoints[wpt] = type + " " + pos + " " + alt + " " + name;
-		m_waypointListItems.push_back(new QListWidgetItem((type + " - " + name).c_str()));
-		m_ui.WaypointstList->addItem(m_waypointListItems[m_waypointListItems.size() - 1]);
-		m_dialog->m_ui.WP->removeItem(m_dialog->m_ui.WP->findText(type.c_str()));
-	}
-
-	// Navgrid
-	pugi::xpath_node navgrid = root.select_single_node("Navgrid");
-	if (navgrid) {
-		pugi::xml_attribute attr;
-		m_logger->info("Importing navgrid...");
-
-		if (attr = navgrid.node().attribute("enabled"))
-			m_ui.NG_Enable->setChecked(attr.as_bool());
-		if (attr = navgrid.node().attribute("center"))
-			m_ui.NG_LatLong->setText(attr.as_string());
-		if (attr = navgrid.node().attribute("bearing"))
-			m_ui.NG_Bearing->setValue(attr.as_int());
-		if (attr = navgrid.node().attribute("width"))
-			m_ui.NG_Width->setValue(attr.as_int());
-		if (attr = navgrid.node().attribute("sectors"))
-			m_ui.NG_Sectors->setValue(attr.as_int());
-	}
-}
-
-void TomcatWindow::OpenSelectFileDiaglogCF()
+void HornetWindow::OpenSelectFileDiaglogCF()
 {
 	// Select cf file
 	m_selectWindow = new FileSelectorWindow(nullptr, "cf", m_logger);
@@ -247,7 +196,7 @@ void TomcatWindow::OpenSelectFileDiaglogCF()
 	m_selectWindow->show();
 }
 
-void TomcatWindow::ImportFromCombatFilte()
+void HornetWindow::ImportFromCombatFilte()
 {
 	// Get .cf path and selected filght, delete window
 	std::string filePath = m_selectWindow->m_ui.text->text().toStdString();
@@ -286,9 +235,9 @@ void TomcatWindow::ImportFromCombatFilte()
 																m_flightData[wptName]["NAME"] = wptName;
 															}
 															else if (reader.name() == tr("Lon"))
-																m_flightData[wptName]["LONGITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 3, false);
+																m_flightData[wptName]["LONGITUDE"] = reader.readElementText().toStdString();
 															else if (reader.name() == tr("Lat"))
-																m_flightData[wptName]["LATTITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 3, true);
+																m_flightData[wptName]["LATTITUDE"] = reader.readElementText().toStdString();
 															else if (reader.name() == tr("Altitude"))
 																m_flightData[wptName]["ALTITUDE"] = reader.readElementText().toStdString();
 															else {
@@ -298,7 +247,7 @@ void TomcatWindow::ImportFromCombatFilte()
 															}
 													}
 													else
-														reader.skipCurrentElement();											
+														reader.skipCurrentElement();
 											else
 												reader.skipCurrentElement();
 									else
@@ -316,37 +265,32 @@ void TomcatWindow::ImportFromCombatFilte()
 
 	f.close();
 
-	m_logger->debug("CF File read complete !");
-
 	// Add all of that points to list
 	AddCFWaypoints();
 }
 
-void TomcatWindow::CancelAdd()
+void HornetWindow::CancelAdd()
 {
 	m_logger->info("Canceling waypoint add.");
 	std::string name = m_dialog->m_ui.Name->text().toStdString();
-	m_dialog->m_ui.Position->setText("");
-	m_dialog->m_ui.Altitude->setText("");
-	m_dialog->m_ui.Name->setText("");
-	m_dialog->hide();
-
-	if (m_waypointListItems.size() < 9) {
-		if (m_flightData.size() != 0) {
-			m_flightData.erase(name);
+	if (m_flightData.size() != 0 && m_waypointListItems.size() < 9) {
+		m_flightData.erase(name);
+		if (m_flightData.size() != 0)
 			AddCFWaypoints();
-		}
+		else
+			m_dialog->hide();
 	}
 	else
-		OpenWaypointDialog();
+		m_dialog->hide();
 }
 
-void TomcatWindow::AddCFWaypoints()
+void HornetWindow::AddCFWaypoints()
 {
 	for (auto wpt : m_flightData) {
-		m_dialog->m_ui.Position->setText((wpt.second["LATTITUDE"] + wpt.second["LONGITUDE"]).c_str());
+		m_dialog->m_ui.Position->setText(("N" + wpt.second["LATTITUDE"] + "E" + wpt.second["LONGITUDE"]).c_str());
 		m_dialog->m_ui.Name->setText(wpt.second["NAME"].c_str());
 		m_dialog->m_ui.Altitude->setText(wpt.second["ALTITUDE"].c_str());
 		OpenWaypointDialog();
 	}
 }
+*/
