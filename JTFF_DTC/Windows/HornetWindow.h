@@ -3,11 +3,12 @@
 
 #include <QWidget>
 #include <QListWidget>
+#include <QLineEdit>
 
+#include "../Connectors/HornetConnector.h"
+#include "../Windows/WaypointAddDialog.h"
+#include "../Windows/FileSelectorWindow.h"
 #include "../DTCUtils.h"
-//#include "../Connectors/HornetConnector.h"
-#include "WaypointAddDialog.h"
-#include "FileSelectorWindow.h"
 #include "ui_HornetWindow.h"
 
 class HornetWindow : public QWidget
@@ -18,20 +19,22 @@ public:
 	HornetWindow(QWidget* parent, const ConnectorCreator& connector, DTCLogger* log, DTCSettings* settings);
 	~HornetWindow();
 
-/*/public slots:
+public slots:
 	void OpenWaypointDialog();
 	void AddWaypoint();
 	void RemoveWaypoint();
 	void ModifyWaypoint();
-	void ExportToAircraft();
+	//void ExportToAircraft();
 	void ExportToFile();
 	void ImportFromFile();
 	void OpenSelectFileDiaglogCF();
 	void ImportFromCombatFilte();
-	void CancelAdd();*/
+	void CancelAdd();
 
 private:
 	void AddCFWaypoints();
+
+	std::array<QLineEdit*, 44> radioPresets;
 
 	std::map<std::string, std::map<std::string, std::string>> m_flightData;
 
@@ -40,7 +43,7 @@ private:
 	std::unordered_map<unsigned int, std::string> m_waypoints;
 	std::vector<QListWidgetItem*> m_waypointListItems;
 
-	//HornetConnector m_connector;
+	HornetConnector m_connector;
 	WaypointAddDialog* m_dialog;
 	FileSelectorWindow* m_selectWindow;
 

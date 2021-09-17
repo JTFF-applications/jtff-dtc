@@ -3,8 +3,7 @@
 
 #include <QWidget>
 
-#include "../DTCUtils.h"
-#include "../Connectors/TomcatConnector.h"
+#include "../Connectors/HornetConnector.h"
 #include "ui_WaypointAddDialog.h"
 
 class WaypointAddDialog : public QWidget

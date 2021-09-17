@@ -48,10 +48,18 @@ Waypoint BaseConnector::parseCoords(const std::string& coords, const bool& IsNav
 		tmp.erase(0, pos + 1);
 	}
 	infos.push_back(tmp);
+	int i = (IsNavgrid) ? 0 : 1;
+
+	// Removing dots in coords
+	std::string newStr = "";
+	while ((pos = infos[i].find('.')) != std::string::npos) {
+		newStr += infos[i].substr(0, pos);
+		infos[i].erase(0, pos + 1);
+	}
+	infos[i] = newStr + infos[i];
 
 	Waypoint res;
-	int i = (IsNavgrid) ? 0 : 1;
-	int N = infos[i].find_first_of("N"), E = infos[i].find_first_of("E"), S = infos[i].find_first_of("S"), W = infos[i].find_first_of("W"), A = infos[i].find_first_of("A");
+	int N = infos[i].find_first_of("N"), E = infos[i].find_first_of("E"), S = infos[i].find_first_of("S"), W = infos[i].find_first_of("W");
 	res.N = (N != std::string::npos) ? infos[i].substr(N + 1, 5) : "";
 	res.E = (E != std::string::npos) ? infos[i].substr(E + 1, 5) : "";
 	res.S = (S != std::string::npos) ? infos[i].substr(S + 1, 5) : "";

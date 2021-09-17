@@ -7,6 +7,8 @@
 
 #include "../DTCUtils.h"
 #include "../Connectors/TomcatConnector.h"
+#include "../Windows/WaypointAddDialog.h"
+#include "../Windows/FileSelectorWindow.h"
 #include "ui_TomcatWindow.h"
 
 class TomcatWindow : public QWidget

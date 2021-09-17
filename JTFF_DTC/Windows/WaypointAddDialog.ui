@@ -120,19 +120,6 @@
     <string>Name</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="WP">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>140</y>
-     <width>81</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
@@ -157,6 +144,16 @@
    </property>
    <property name="text">
     <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="WP">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>140</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
    </property>
   </widget>
  </widget>

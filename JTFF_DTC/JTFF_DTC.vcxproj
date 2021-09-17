@@ -62,11 +62,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -98,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="Connectors\TomcatConnector.cpp" />
     <ClCompile Include="DTCUtils.cpp" />
+    <ClCompile Include="Connectors\HornetConnector.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
     <ClCompile Include="Windows\FileSelectorWindow.cpp" />
     <ClCompile Include="Windows\HornetWindow.cpp" />
@@ -120,6 +123,7 @@
     <ClInclude Include="DTCLogger.h" />
     <ClInclude Include="Connectors\TomcatConnector.h" />
     <ClInclude Include="DTCUtils.h" />
+    <ClInclude Include="Connectors\HornetConnector.h" />
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
     <QtMoc Include="Windows\HornetWindow.h" />

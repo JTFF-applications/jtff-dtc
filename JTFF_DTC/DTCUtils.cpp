@@ -1,3 +1,5 @@
+#include <QMessageBox>
+
 #include "DTCUtils.h"
 
 inline std::string DegreesMinutesSeconds(double ang, unsigned int num_dec_places = 2)
@@ -93,4 +95,11 @@ std::string DTCUtils::decimalToLatLong(const std::string& coords, const unsigned
     if (res[0] == '-')
         return "W" + res;
     return "E" + res;
+}
+
+void DTCUtils::OpenErrorBox(std::string msg)
+{
+    QMessageBox box;
+    box.setText(msg.c_str());
+    box.exec();
 }

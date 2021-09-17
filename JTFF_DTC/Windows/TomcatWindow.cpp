@@ -30,10 +30,8 @@ TomcatWindow::~TomcatWindow()
 void TomcatWindow::OpenWaypointDialog()
 {
 	if (m_waypointListItems.size() == 9) {
-		QMessageBox msgBox;
 		m_logger->warning("All possible waypoints entered.");
-		msgBox.setText("You have already entered all possible waypoints for the Tomcat.");
-		msgBox.exec();
+		DTCUtils::OpenErrorBox("You have already entered all possible waypoints for the Tomcat.");
 		return;
 	}
 
@@ -182,29 +180,22 @@ void TomcatWindow::ImportFromFile()
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str(), pugi::parse_default | pugi::parse_declaration);
 	if (!result) {
-		QMessageBox mbox;
-		mbox.setText(("ERROR : Can't open xml file ! File:" + fileName).c_str());
-		mbox.show();
-
+		DTCUtils::OpenErrorBox("ERROR : Can't open xml file ! File:" + fileName);
 		m_logger->warning("Failed to open selected file : " + fileName + " ! Canceling...");
 		return;
 	}
 
 	// Get root and check if aircraft is good
 	pugi::xml_node root = doc.document_element();
-	pugi::xpath_node aircraft = root.select_single_node("Aircraft");
-	if (aircraft)
-		if (aircraft.node().attribute("name").as_string() != "F14") {
-			QMessageBox mbox;
-			mbox.setText("This file is not for the tomcat ! You can't open it !");
-			mbox.show();
-
-			m_logger->warning("This file is not for the tomcat ! You can't open it !");
-			return;
-		}
+	if (std::string(root.attribute("name").value()) != "F14") {
+		DTCUtils::OpenErrorBox("This file is not for the tomcat ! You can't open it !");
+		m_logger->warning("This file is not for the tomcat ! You can't open it !");
+		return;
+	}
 
 	// Waypoints
-	pugi::xpath_node_set wpts = root.select_nodes("Waypoint");
+	pugi::xpath_node masterWpts = root.select_single_node("Waypoints");
+	pugi::xpath_node_set wpts = masterWpts.node().select_nodes("Waypoint");
 	for (auto wpt : wpts) {
 		std::string type = wpt.node().attribute("type").as_string();
 		std::string pos = wpt.node().attribute("coordinates").as_string();;
@@ -286,9 +277,9 @@ void TomcatWindow::ImportFromCombatFilte()
 																m_flightData[wptName]["NAME"] = wptName;
 															}
 															else if (reader.name() == tr("Lon"))
-																m_flightData[wptName]["LONGITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 3, false);
+																m_flightData[wptName]["LONGITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 1, false);
 															else if (reader.name() == tr("Lat"))
-																m_flightData[wptName]["LATTITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 3, true);
+																m_flightData[wptName]["LATTITUDE"] = DTCUtils::decimalToLatLong(reader.readElementText().toStdString(), 1, true);
 															else if (reader.name() == tr("Altitude"))
 																m_flightData[wptName]["ALTITUDE"] = reader.readElementText().toStdString();
 															else {
