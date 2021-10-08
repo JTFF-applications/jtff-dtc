@@ -7,7 +7,7 @@
 #include <chrono>
 #include <iomanip>
 
-#define JTFF_DTC_API  __declspec(dllexport)
+#include "DTCUtils.h"
 
 class JTFF_DTC_API DTCLogger
 {

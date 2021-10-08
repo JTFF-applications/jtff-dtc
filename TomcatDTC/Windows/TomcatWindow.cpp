@@ -6,7 +6,7 @@ TomcatWindow::TomcatWindow(QWidget *parent, const ConnectorCreator& connector, D
 	m_logger->debug("Creating TomcatWindow...");
 	m_ui.setupUi(this);
 
-	m_dialog = new WaypointAddDialog(nullptr, "TOMCAT", m_logger, m_settings);
+	m_dialog = new WaypointAddDialog(nullptr, DTCUtils::Aircraft::Tomcat, m_logger, m_settings);
 
 	m_logger->debug("Linking Tomcat UI...");
 	connect(m_ui.AddWptButton, SIGNAL(clicked()), this, SLOT(OpenWaypointDialog()));
@@ -176,6 +176,8 @@ void TomcatWindow::ExportToFile()
 void TomcatWindow::ImportFromFile()
 {
 	std::string fileName = QFileDialog::getOpenFileName(this, tr("Open DTC file"), "", tr("Xml Files (*.xml)")).toStdString();
+	if (fileName.empty())
+		return;
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str(), pugi::parse_default | pugi::parse_declaration);

@@ -3,13 +3,10 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include <Qt>
 
-#include "../DTCUtils.h"
-#include "../Connectors/TomcatConnector.h"
-#include "../Windows/WaypointAddDialog.h"
-#include "../Windows/FileSelectorWindow.h"
+#include <JTFF_DTC_API.h>
 #include "ui_TomcatWindow.h"
+#include "../Connectors/TomcatConnector.h"
 
 class TomcatWindow : public QWidget
 {

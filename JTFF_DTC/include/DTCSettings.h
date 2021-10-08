@@ -5,8 +5,7 @@
 #include <vector>
 
 #include "DTCLogger.h"
-
-#define JTFF_DTC_API __declspec(dllexport)
+#include "DTCUtils.h"
 
 class JTFF_DTC_API DTCSettings
 {

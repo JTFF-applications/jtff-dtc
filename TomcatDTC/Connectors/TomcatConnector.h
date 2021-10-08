@@ -2,21 +2,9 @@
 #define TOMCATCONENCTOR_H
 
 #include <string>
-#include "BaseConnector.h"
+#include <unordered_map>
 
-namespace Tomcat {
-	enum class UsableWaypoints {
-		WP1 = 1, WP2, WP3, FP, IP, ST, HA, DP, HB, Error
-	};
-
-	struct NavgridParams {
-		std::string center;
-		int sectors, width, orientation;
-	};
-
-	UsableWaypoints StringToWP(const std::string& wp);
-	std::string WPToSring(const UsableWaypoints& wp);
-}
+#include <JTFF_DTC_API.h>
 
 class TomcatConnector : protected BaseConnector
 {

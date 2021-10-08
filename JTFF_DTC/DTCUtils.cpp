@@ -97,7 +97,7 @@ std::string DTCUtils::decimalToLatLong(const std::string& coords, const unsigned
     return "E" + res;
 }
 
-void DTCUtils::OpenErrorBox(std::string msg)
+void DTCUtils::OpenErrorBox(const std::string& msg)
 {
     QMessageBox box;
     box.setText(msg.c_str());

@@ -35,34 +35,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DTCSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DTCLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Connectors\TomcatConnector.cpp">
-      <Filter>Source Files\Connectors</Filter>
-    </ClCompile>
     <ClCompile Include="Connectors\BaseConnector.cpp">
       <Filter>Source Files\Connectors</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\MainWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\TomcatWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Windows\WaypointAddDialog.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Windows\FileSelectorWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\HornetWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="DTCUtils.cpp">
@@ -71,9 +56,6 @@
     <ClCompile Include="pugixml\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Connectors\HornetConnector.cpp">
-      <Filter>Source Files\Connectors</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DTCSettings.h">
@@ -81,9 +63,6 @@
     </ClInclude>
     <ClInclude Include="DTCLogger.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Connectors\TomcatConnector.h">
-      <Filter>Header Files\Connectors</Filter>
     </ClInclude>
     <ClInclude Include="Connectors\BaseConnector.h">
       <Filter>Header Files\Connectors</Filter>
@@ -97,44 +76,29 @@
     <ClInclude Include="pugixml\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Connectors\HornetConnector.h">
-      <Filter>Header Files\Connectors</Filter>
+    <ClInclude Include="JTFF_DTC_API.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AircraftSpecials.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="settings.ini" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="Windows\MainWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="Windows\TomcatWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="Windows\WaypointAddDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Windows\FileSelectorWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="Windows\HornetWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Windows\MainWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
-    <QtMoc Include="Windows\TomcatWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
     <QtMoc Include="Windows\WaypointAddDialog.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\FileSelectorWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
-    <QtMoc Include="Windows\HornetWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
   </ItemGroup>

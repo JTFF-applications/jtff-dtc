@@ -1,6 +1,12 @@
 #ifndef DTCUTILS_H
 #define DTCUTILS_H
 
+#ifdef JTFF_DTC_API_IMPORT
+#define JTFF_DTC_API __declspec(dllimport)
+#else
+#define JTFF_DTC_API __declspec(dllexport)
+#endif
+
 #include <string>
 #include <sstream>
 
@@ -8,8 +14,6 @@
 
 #include "DTCLogger.h"
 #include "DTCSettings.h"
-
-#define JTFF_DTC_API __declspec(dllexport)
 
 namespace DTCUtils
 {    
