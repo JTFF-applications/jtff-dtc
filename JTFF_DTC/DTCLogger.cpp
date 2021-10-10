@@ -2,7 +2,15 @@
 
 DTCLogger::DTCLogger(const std::string& fileName)
 {
-	m_file.open(fileName, std::ios::in | std::ios::app);
+    if (std::filesystem::exists(fileName))
+        if (std::filesystem::exists(fileName))
+        {
+            if (std::filesystem::exists(fileName + ".old"))
+                std::filesystem::remove(fileName + ".old");
+            std::filesystem::copy_file(fileName, fileName + ".old");
+        }
+        
+	m_file.open(fileName, std::ios::out | std::ios::trunc);
 
 	if (!m_file.is_open())
 		throw std::exception("Can't open or create log file !");

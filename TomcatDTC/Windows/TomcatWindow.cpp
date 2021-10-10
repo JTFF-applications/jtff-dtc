@@ -24,6 +24,10 @@ TomcatWindow::TomcatWindow(QWidget *parent, const ConnectorCreator& connector, D
 
 TomcatWindow::~TomcatWindow()
 {
+	for (auto& item : m_waypointListItems)
+		if (item)
+			delete item;
+
 	delete m_dialog;
 }
 

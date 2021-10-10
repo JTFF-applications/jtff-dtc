@@ -6,6 +6,7 @@
 #include <sstream>
 #include <chrono>
 #include <iomanip>
+#include <filesystem>
 
 #define JTFF_DTC_API  __declspec(dllexport)
 
