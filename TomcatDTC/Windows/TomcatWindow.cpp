@@ -47,6 +47,11 @@ void TomcatWindow::AddWaypoint()
 	std::string latlong = m_dialog->m_ui.Position->text().toStdString();
 	std::string name = m_dialog->m_ui.Name->text().toStdString();
 	std::string alt = m_dialog->m_ui.Altitude->text().toStdString();
+
+	DTCUtils::ReplaceOccurencesInStr(latlong, ' ', "");
+	DTCUtils::ReplaceOccurencesInStr(name, ' ', "_");
+	DTCUtils::ReplaceOccurencesInStr(alt, ' ', "");
+
 	Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(m_dialog->m_ui.WP->currentText().toStdString());
 	m_logger->info("Adding waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + latlong + " ALT:" + alt);
 
@@ -279,7 +284,22 @@ void TomcatWindow::ImportFromCombatFilte()
 														while (reader.readNext())
 															if (reader.name() == tr("Name")) {
 																wptName = reader.readElementText().toStdString();
-																wptName.erase(remove(wptName.begin(), wptName.end(), ' '), wptName.end());
+																DTCUtils::ReplaceOccurencesInStr(wptName, ' ', "_");
+																if (m_flightData.contains(wptName))
+																	if (m_flightData.contains(wptName + "_1"))
+																	{
+																		int i = 1;
+																		while (m_flightData.contains(wptName + "_" + std::to_string(i)))
+																		{
+																			wptName += "_" + std::to_string(i);
+																			++i;
+																		}
+																	}
+																	else
+																	{
+																		wptName += "_1";
+																	}
+																		
 																m_flightData[wptName]["NAME"] = wptName;
 															}
 															else if (reader.name() == tr("Lon"))
@@ -340,10 +360,11 @@ void TomcatWindow::CancelAdd()
 
 void TomcatWindow::AddCFWaypoints()
 {
-	for (auto wpt : m_flightData) {
-		m_dialog->m_ui.Position->setText((wpt.second["LATTITUDE"] + wpt.second["LONGITUDE"]).c_str());
-		m_dialog->m_ui.Name->setText(wpt.second["NAME"].c_str());
-		m_dialog->m_ui.Altitude->setText(wpt.second["ALTITUDE"].c_str());
+	for (std::map<std::string, std::map<std::string, std::string>>::reverse_iterator i = m_flightData.rbegin(); i != m_flightData.rend(); ++i)
+	{
+		m_dialog->m_ui.Position->setText((i->second["LATTITUDE"] + i->second["LONGITUDE"]).c_str());
+		m_dialog->m_ui.Name->setText(i->second["NAME"].c_str());
+		m_dialog->m_ui.Altitude->setText(i->second["ALTITUDE"].c_str());
 		OpenWaypointDialog();
 	}
 }

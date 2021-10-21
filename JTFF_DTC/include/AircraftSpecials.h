@@ -7,12 +7,15 @@ namespace Hornet
 	static int MaxWaypoints = 100;
 }
 
-namespace Tomcat {
-	enum class UsableWaypoints {
-		WP1 = 1, WP2, WP3, FP, IP, ST, HA, DP, HB, Error
+namespace Tomcat
+{
+	enum class UsableWaypoints
+	{
+		WP1 = 1, WP2, WP3, FP, IP, HB, DP, HA, ST, Error
 	};
 
-	struct NavgridParams {
+	struct NavgridParams
+	{
 		std::string center;
 		int sectors, width, orientation;
 	};

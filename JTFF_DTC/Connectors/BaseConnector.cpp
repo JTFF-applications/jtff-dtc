@@ -51,19 +51,19 @@ Waypoint BaseConnector::parseCoords(const std::string& coords, const bool& IsNav
 	int i = (IsNavgrid) ? 0 : 1;
 
 	// Removing dots in coords
-	std::string newStr = "";
-	while ((pos = infos[i].find('.')) != std::string::npos) {
-		newStr += infos[i].substr(0, pos);
-		infos[i].erase(0, pos + 1);
-	}
-	infos[i] = newStr + infos[i];
+	DTCUtils::ReplaceOccurencesInStr(infos[i], '.', "");
 
 	Waypoint res;
 	int N = infos[i].find_first_of("N"), E = infos[i].find_first_of("E"), S = infos[i].find_first_of("S"), W = infos[i].find_first_of("W");
 	res.N = (N != std::string::npos) ? infos[i].substr(N + 1, 5) : "";
-	res.E = (E != std::string::npos) ? infos[i].substr(E + 1, 5) : "";
+	res.E = (E != std::string::npos) ? infos[i].substr(E + 1, infos[i].size() - (E + 1)) : "";
 	res.S = (S != std::string::npos) ? infos[i].substr(S + 1, 5) : "";
-	res.W = (W != std::string::npos) ? infos[i].substr(W + 1, 5) : "";
+	res.W = (W != std::string::npos) ? infos[i].substr(W + 1, infos[i].size() - (W + 1)) : "";
+
+	res.N = (res.N[0] == '0') ? res.N.substr(1, res.N.size() - 1) : res.N;
+	res.E = (res.E[0] == '0') ? res.E.substr(1, res.E.size() - 1) : res.E;
+	res.S = (res.S[0] == '0') ? res.S.substr(1, res.S.size() - 1) : res.S;
+	res.W = (res.W[0] == '0') ? res.W.substr(1, res.W.size() - 1) : res.W;
 
 	if (!IsNavgrid) {
 		res.ALT = infos[2];

@@ -103,3 +103,24 @@ void DTCUtils::OpenErrorBox(const std::string& msg)
     box.setText(msg.c_str());
     box.exec();
 }
+
+void DTCUtils::ReplaceOccurencesInStr(std::string& string, const char& occur, const std::string& toReplace)
+{
+    size_t pos = 0;
+    if (toReplace == "")
+    {
+        std::string newStr = "";
+
+        while ((pos = string.find(occur)) != std::string::npos)
+        {
+            newStr += string.substr(0, pos);
+            string.erase(0, pos + 1);
+        }
+
+        string = (newStr + string);
+        return;
+    }
+    else
+        while ((pos = string.find(occur)) != std::string::npos)
+            string[pos] = toReplace[0];
+}

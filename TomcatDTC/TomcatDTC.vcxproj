@@ -60,12 +60,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>JTFF_DTC.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:library %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\JTFF_DTC\x64\Release\uic;C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\JTFF_DTC\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\JTFF_DTC\x64\Debug\uic;C:\Users\DIRECTEUR_PC2\source\repos\JTFF_DTC\JTFF_DTC\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

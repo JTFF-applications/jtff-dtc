@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QMessageBox>
 
+#include <string>
+
 #include <JTFF_DTC_API.h>
 #include "ui_TomcatWindow.h"
 #include "../Connectors/TomcatConnector.h"

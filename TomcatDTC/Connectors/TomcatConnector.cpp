@@ -56,7 +56,6 @@ void TomcatConnector::enterNumber(const std::string& nb)
 {
 	for (char digit : nb)
 		setComputerAddressPanel(std::string(1, digit));
-	return;
 }
 
 void TomcatConnector::enterWaypoint(const std::string& coords, const Tomcat::UsableWaypoints& waypoint)
@@ -159,7 +158,8 @@ void TomcatConnector::enterNavgrid(const Tomcat::NavgridParams& navgrid)
 	setComputerAddressPanel("ENTER");
 }
 
-namespace Tomcat {
+namespace Tomcat
+{
 	UsableWaypoints Tomcat::StringToWP(const std::string& wp)
 	{
 		if (wp == "WP1")

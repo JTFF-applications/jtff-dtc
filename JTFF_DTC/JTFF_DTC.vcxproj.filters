@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="settings.ini" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Windows\WaypointAddDialog.ui">
