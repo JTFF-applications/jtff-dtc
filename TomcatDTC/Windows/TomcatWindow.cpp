@@ -47,15 +47,17 @@ void TomcatWindow::AddWaypoint()
 	std::string latlong = m_dialog->m_ui.Position->text().toStdString();
 	std::string name = m_dialog->m_ui.Name->text().toStdString();
 	std::string alt = m_dialog->m_ui.Altitude->text().toStdString();
+	std::string spd = m_dialog->m_ui.SPD->text().toStdString();
+	std::string hdg = m_dialog->m_ui.HDG->text().toStdString();
 
 	DTCUtils::ReplaceOccurencesInStr(latlong, ' ', "");
 	DTCUtils::ReplaceOccurencesInStr(name, ' ', "_");
 	DTCUtils::ReplaceOccurencesInStr(alt, ' ', "");
 
 	Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(m_dialog->m_ui.WP->currentText().toStdString());
-	m_logger->info("Adding waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + latlong + " ALT:" + alt);
+	m_logger->info("Adding waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + latlong + " ALT:" + alt + " HDG:" + hdg + " SPD:" + spd);
 
-	m_waypoints[wpt] = m_dialog->m_ui.WP->currentText().toStdString() + " " + latlong + " " + alt + " " + name;
+	m_waypoints[wpt] = m_dialog->m_ui.WP->currentText().toStdString() + " " + latlong + " " + alt + " " + spd + " " + hdg + " " + name;
 	m_waypointListItems.push_back(new QListWidgetItem((m_dialog->m_ui.WP->currentText().toStdString() + " - " + name).c_str()));
 	m_ui.WaypointstList->addItem(m_waypointListItems[m_waypointListItems.size() - 1]);
 
@@ -63,6 +65,8 @@ void TomcatWindow::AddWaypoint()
 	m_dialog->m_ui.Position->clear();
 	m_dialog->m_ui.Name->clear();
 	m_dialog->m_ui.Altitude->clear();
+	m_dialog->m_ui.SPD->clear();
+	m_dialog->m_ui.HDG->clear();
 	m_dialog->m_ui.WP->removeItem(m_dialog->m_ui.WP->findText(m_dialog->m_ui.WP->currentText()));
 
 	if (m_waypointListItems.size() < 9) {
@@ -107,7 +111,9 @@ void TomcatWindow::ModifyWaypoint()
 
 		m_dialog->m_ui.Position->setText(infos[1].c_str());
 		m_dialog->m_ui.Altitude->setText(infos[2].c_str());
-		m_dialog->m_ui.Name->setText(infos[3].c_str());
+		m_dialog->m_ui.SPD->setText(infos[3].c_str());
+		m_dialog->m_ui.HDG->setText(infos[4].c_str());
+		m_dialog->m_ui.Name->setText(infos[5].c_str());
 
 		// Delete waypoint
 		m_waypointListItems.erase(std::remove(m_waypointListItems.begin(), m_waypointListItems.end(), item), m_waypointListItems.end());
@@ -174,7 +180,9 @@ void TomcatWindow::ExportToFile()
 		wpt.append_attribute("type") = infos[0].c_str();
 		wpt.append_attribute("coordinates") = infos[1].c_str();
 		wpt.append_attribute("altitude") = infos[2].c_str();
-		wpt.append_attribute("name") = infos[3].c_str();
+		wpt.append_attribute("speed") = infos[3].c_str();
+		wpt.append_attribute("heading") = infos[4].c_str();
+		wpt.append_attribute("name") = infos[5].c_str();
 	}
 
 	bool saveSucceeded = doc.save_file(fileName.c_str(), PUGIXML_TEXT("  "));
@@ -209,14 +217,16 @@ void TomcatWindow::ImportFromFile()
 	pugi::xpath_node_set wpts = masterWpts.node().select_nodes("Waypoint");
 	for (auto wpt : wpts) {
 		std::string type = wpt.node().attribute("type").as_string();
-		std::string pos = wpt.node().attribute("coordinates").as_string();;
-		std::string alt = wpt.node().attribute("altitude").as_string();;
-		std::string name = wpt.node().attribute("name").as_string();;
+		std::string pos = wpt.node().attribute("coordinates").as_string();
+		std::string alt = wpt.node().attribute("altitude").as_string();
+		std::string spd = wpt.node().attribute("speed").as_string();
+		std::string hdg = wpt.node().attribute("heading").as_string();
+		std::string name = wpt.node().attribute("name").as_string();
 
 		Tomcat::UsableWaypoints wpt = Tomcat::StringToWP(type);
-		m_logger->info("Importing waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + pos + " ALT:" + alt);
+		m_logger->info("Importing waypoint " + m_dialog->m_ui.WP->currentText().toStdString() + " NAME:" + name + " COORDS:" + pos + " ALT:" + alt + " HDG:" + hdg + " SPD:" + spd);
 
-		m_waypoints[wpt] = type + " " + pos + " " + alt + " " + name;
+		m_waypoints[wpt] = type + " " + pos + " " + alt + " " + spd + " " + hdg + " " + name;
 		m_waypointListItems.push_back(new QListWidgetItem((type + " - " + name).c_str()));
 		m_ui.WaypointstList->addItem(m_waypointListItems[m_waypointListItems.size() - 1]);
 		m_dialog->m_ui.WP->removeItem(m_dialog->m_ui.WP->findText(type.c_str()));
@@ -345,6 +355,8 @@ void TomcatWindow::CancelAdd()
 	std::string name = m_dialog->m_ui.Name->text().toStdString();
 	m_dialog->m_ui.Position->setText("");
 	m_dialog->m_ui.Altitude->setText("");
+	m_dialog->m_ui.SPD->setText("");
+	m_dialog->m_ui.HDG->setText("");
 	m_dialog->m_ui.Name->setText("");
 	m_dialog->hide();
 

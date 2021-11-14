@@ -20,7 +20,7 @@ struct JTFF_DTC_API ConnectorCreator {
 };
 
 struct JTFF_DTC_API Waypoint {
-	std::string N, E, S, W, ALT, NAME;
+	std::string N, E, S, W, ALT, NAME, SPD, HDG, TOT;
 };
 
 class JTFF_DTC_API BaseConnector

@@ -95,11 +95,30 @@ void TomcatConnector::enterWaypoint(const std::string& coords, const Tomcat::Usa
 	setComputerAddressPanel("ENTER");
 
 	// Set altitude
-	if (point.ALT != "") {
+	if (point.ALT != "")
+	{
 		setComputerAddressPanel("CLEAR");
 		setComputerAddressPanel("4");
 		setComputerAddressPanel("N");
 		enterNumber(point.ALT);
+		setComputerAddressPanel("ENTER");
+	}
+	
+	// Set speed
+	if (point.SPD != "")
+	{
+		setComputerAddressPanel("CLEAR");
+		setComputerAddressPanel("3");
+		enterNumber(point.SPD);
+		setComputerAddressPanel("ENTER");
+	}
+
+	// Set heading
+	if (point.HDG != "")
+	{
+		setComputerAddressPanel("CLEAR");
+		setComputerAddressPanel("8");
+		enterNumber(point.HDG);
 		setComputerAddressPanel("ENTER");
 	}
 }
