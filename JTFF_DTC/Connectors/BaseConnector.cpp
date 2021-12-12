@@ -65,12 +65,11 @@ Waypoint BaseConnector::parseCoords(const std::string& coords, const bool& IsNav
 	res.S = (res.S[0] == '0') ? res.S.substr(1, res.S.size() - 1) : res.S;
 	res.W = (res.W[0] == '0') ? res.W.substr(1, res.W.size() - 1) : res.W;
 
-	res.SPD = infos[3];
-	res.HDG = infos[4];
-
 	if (!IsNavgrid) {
 		res.ALT = infos[2];
 		res.NAME = infos[5];
+		res.SPD = infos[3];
+		res.HDG = infos[4];
 	}
 	return res;
 }
