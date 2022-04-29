@@ -113,6 +113,11 @@
     <None Include="TOMCAT_DTC.ico" />
     <ResourceCompile Include="TOMCAT_DTC.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JTFF_DTC_API\JTFF_DTC_API.vcxproj">
+      <Project>{8f8e56a2-6e48-41c9-8326-d49bbf5a3d33}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
