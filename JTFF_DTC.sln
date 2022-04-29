@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32422.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JTFF_DTC_API", "JTFF_DTC_API\JTFF_DTC_API.vcxproj", "{8F8E56A2-6E48-41C9-8326-D49BBF5A3D33}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TOMCAT_DTC", "TOMCAT_DTC\TOMCAT_DTC.vcxproj", "{092737A1-6BC7-4E54-BCD1-F7A705FACE1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F8E56A2-6E48-41C9-8326-D49BBF5A3D33}.Debug|x64.ActiveCfg = Debug|x64
+		{8F8E56A2-6E48-41C9-8326-D49BBF5A3D33}.Debug|x64.Build.0 = Debug|x64
+		{8F8E56A2-6E48-41C9-8326-D49BBF5A3D33}.Release|x64.ActiveCfg = Release|x64
+		{8F8E56A2-6E48-41C9-8326-D49BBF5A3D33}.Release|x64.Build.0 = Release|x64
+		{092737A1-6BC7-4E54-BCD1-F7A705FACE1F}.Debug|x64.ActiveCfg = Debug|x64
+		{092737A1-6BC7-4E54-BCD1-F7A705FACE1F}.Debug|x64.Build.0 = Debug|x64
+		{092737A1-6BC7-4E54-BCD1-F7A705FACE1F}.Release|x64.ActiveCfg = Release|x64
+		{092737A1-6BC7-4E54-BCD1-F7A705FACE1F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29D94321-1075-4DD0-A8AA-3B6713EF9146}
+	EndGlobalSection
+EndGlobal
