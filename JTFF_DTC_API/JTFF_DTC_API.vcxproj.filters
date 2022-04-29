@@ -17,17 +17,45 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="Header Files\Connectors">
+      <UniqueIdentifier>{288110fc-ef6e-42e7-b1d2-56d31a839cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Connectors">
+      <UniqueIdentifier>{9c897a81-dc5a-466c-a1ff-eb2598f476c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{6ca5c04e-89e3-4641-aac4-268a3e8bc8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{c8df1457-b2ea-4f2f-bcdd-4394d4c13e6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jtff_dtc_api_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="JTFF_DTC_API.h">
+    <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="JTFF_DTC_API.cpp">
-      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Connectors\BaseConnector.h">
+      <Filter>Header Files\Connectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Coordinate.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Waypoint.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Connectors\BaseConnector.cpp">
+      <Filter>Source Files\Connectors</Filter>
     </ClCompile>
-
+    <ClCompile Include="Utilities\Coordinate.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Waypoint.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
