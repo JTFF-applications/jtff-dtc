@@ -1,34 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Translation Files">
-      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
-      <Extensions>ts</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Connectors">
-      <UniqueIdentifier>{288110fc-ef6e-42e7-b1d2-56d31a839cba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Connectors">
-      <UniqueIdentifier>{9c897a81-dc5a-466c-a1ff-eb2598f476c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utilities">
-      <UniqueIdentifier>{6ca5c04e-89e3-4641-aac4-268a3e8bc8a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utilities">
-      <UniqueIdentifier>{c8df1457-b2ea-4f2f-bcdd-4394d4c13e6c}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Connectors\BaseConnector.cpp">
+      <Filter>Source files\Connectors</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Coordinate.cpp">
+      <Filter>Source files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CombatFlite.cpp">
+      <Filter>Source files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Waypoint.cpp">
+      <Filter>Source files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\FlightSelector.cpp">
+      <Filter>Source files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\WaypointAddDialog.cpp">
+      <Filter>Source files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jtff_dtc_api_global.h">
@@ -40,6 +33,9 @@
     <ClInclude Include="Connectors\BaseConnector.h">
       <Filter>Header Files\Connectors</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\CombatFlite.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Utilities\Coordinate.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
@@ -48,14 +44,54 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Connectors\BaseConnector.cpp">
-      <Filter>Source Files\Connectors</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Coordinate.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Waypoint.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
+    <QtMoc Include="Windows\FlightSelector.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\WaypointAddDialog.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Windows\FlightSelector.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Windows\WaypointAddDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{5d750252-5fb3-40b2-886b-1c300ec75e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Connectors">
+      <UniqueIdentifier>{7bdcdb92-809b-48ad-8f4e-9c063b4d923d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Windows">
+      <UniqueIdentifier>{c7596b38-20ef-4502-965f-d0a5e597a467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Utilities">
+      <UniqueIdentifier>{72754fd6-c2be-4968-aeb8-a4f5e7caa896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{f738c01a-89a6-4e52-8687-560115992915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{b281b5b9-27a7-4777-b783-61957c3a977c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0580c932-ee55-4532-855e-95942f1c66ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{3ddf561e-b2f0-4873-a821-36bc7c750b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connectors">
+      <UniqueIdentifier>{de24832b-69bc-426c-abfe-3732f5a5fb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows">
+      <UniqueIdentifier>{a1856977-eba6-4700-af64-2f487c5df5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{61072ee8-64f1-4d6a-97c7-b23893c0e88b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
