@@ -163,7 +163,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>241</y>
+     <y>311</y>
      <width>261</width>
      <height>20</height>
     </rect>
@@ -176,7 +176,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>270</y>
+     <y>340</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -189,7 +189,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>390</y>
+     <y>460</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -202,7 +202,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>450</y>
+     <y>520</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -381,7 +381,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>330</y>
+     <y>400</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -431,8 +431,52 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="navgrid_validate_btn">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>260</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Validate Navgrid</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="navgrid_validate_label">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>260</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="vf84_logo">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>610</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="MainWindow.qrc">:/MainWindow/VF84_LOGO.png</pixmap>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="MainWindow.qrc"/>
+ </resources>
  <connections/>
 </ui>

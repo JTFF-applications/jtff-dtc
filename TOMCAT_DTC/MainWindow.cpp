@@ -21,6 +21,11 @@ MainWindow::MainWindow(QWidget* parent)
 	QObject::connect(m_ui.add_wpt_btn, &QPushButton::clicked, this, &MainWindow::on_add_wpt_clicked);
 	QObject::connect(m_ui.rm_wpt_btn, &QPushButton::clicked, this, &MainWindow::on_rm_wpt_clicked);
 	QObject::connect(m_ui.modify_wpy_btn, &QPushButton::clicked, this, &MainWindow::on_modify_wpt_clicked);
+
+	QObject::connect(m_ui.navgrid_validate_btn, &QPushButton::clicked, this, &MainWindow::on_navgrid_validate_clicked);
+	QObject::connect(m_ui.navgrid_lat, &QLineEdit::textChanged, this, &MainWindow::on_navgrid_coordinates_changed);
+	QObject::connect(m_ui.navgrid_lon, &QLineEdit::textChanged, this, &MainWindow::on_navgrid_coordinates_changed);
+
 	QObject::connect(m_ui.import_file_btn, &QPushButton::clicked, this, &MainWindow::on_import_file_clicked);
 	QObject::connect(m_ui.export_file_btn, &QPushButton::clicked, this, &MainWindow::on_export_file_clicked);
 	QObject::connect(m_ui.import_cf_btn, &QPushButton::clicked, this, &MainWindow::on_import_cf_clicked);
@@ -80,6 +85,27 @@ void MainWindow::on_modify_wpt_clicked()
 			});
 		wad.exec();
 	}
+}
+
+void MainWindow::on_navgrid_validate_clicked()
+{
+	auto ttot = m_ui.navgrid_validate_btn->styleSheet().toStdString();
+	try
+	{
+		if (Coordinate::Check(m_ui.navgrid_lat->text().toStdString()) && Coordinate::Check(m_ui.navgrid_lon->text().toStdString()))
+			m_ui.navgrid_validate_label->setStyleSheet("background-color: green; border-radius: 4px;");
+		else
+			m_ui.navgrid_validate_label->setStyleSheet("background-color: red; border-radius: 4px;");
+	}
+	catch (const Coordinate::bad_coordinate& ex)
+	{
+		m_ui.navgrid_validate_label->setStyleSheet("background-color: red; border-radius: 4px;");
+	}
+}
+
+void MainWindow::on_navgrid_coordinates_changed()
+{
+	m_ui.navgrid_validate_label->setStyleSheet("");
 }
 
 void MainWindow::on_import_file_clicked()

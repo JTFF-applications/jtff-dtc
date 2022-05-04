@@ -23,6 +23,9 @@ private slots:
 	void on_rm_wpt_clicked();
 	void on_modify_wpt_clicked();
 
+	void on_navgrid_validate_clicked();
+	void on_navgrid_coordinates_changed();
+
 	void on_import_file_clicked();
 	void on_export_file_clicked();
 	void on_import_cf_clicked();

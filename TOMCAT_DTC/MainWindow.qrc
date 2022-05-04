@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="MainWindow">
+    <qresource prefix="/MainWindow">
+        <file>VF84_LOGO.png</file>
+        <file>TOMCAT_DTC.ico</file>
     </qresource>
 </RCC>
