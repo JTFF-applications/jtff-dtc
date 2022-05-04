@@ -30,7 +30,7 @@ bool Coordinate::Check(const std::string coord)
 
 Coordinate Coordinate::FromString(const std::string& coord)
 {
-	if (Check(coord))
+	if (!Check(coord))
 		throw bad_coordinate(std::format("{} is not a valid coordinate !", coord));
 	return Coordinate(coord);
 }
