@@ -23,6 +23,9 @@ void Coordinate::operator=(const Coordinate& other)
 
 bool Coordinate::Check(const std::string coord)
 {
+	if (coord.empty())
+		throw bad_coordinate("Coordinate is empty !");
+
 	if (coord.front() == 'N' || coord.front() == 'S')
 		return std::regex_match(coord, Coordinate::m_firstValidationRegex);
 	return std::regex_match(coord, Coordinate::m_secondValidationRegex);

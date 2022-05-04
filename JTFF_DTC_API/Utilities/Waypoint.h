@@ -4,12 +4,14 @@
 
 #include "Coordinate.h"
 
-class Waypoint
+class JTFF_DTC_API_EXPORT Waypoint
 {
 public:
 	~Waypoint() = default;
 
 	const std::string GetCoordinates() const { return std::format("{} {}", m_lat.ToString(), m_lon.ToString()); }
+	const std::string& GetLattitude() const { return m_lat.ToString(); }
+	const std::string& GetLongitude() const { return m_lon.ToString(); }
 	const std::string& GetName() const { return m_name; }
 	const int& GetAltitude() const { return m_altitude; }
 	const int& GetSpeed() const { return m_speed; }
