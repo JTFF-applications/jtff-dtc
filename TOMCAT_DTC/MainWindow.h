@@ -8,6 +8,7 @@
 #include <Utilities/Waypoint.h>
 #include <Logger.h>
 
+#include "TomcatConnector.h"
 #include "ui_MainWindow.h"
 
 class MainWindow : public QMainWindow
@@ -29,13 +30,16 @@ private slots:
 
 private:
 	const std::pair<const std::string, const Waypoint> FindWaypoint(const std::string& ui_text);
-	void AddWaypoint(const std::pair <const std::string, const Waypoint>& data);
-	void RemoveWaypoint(const std::pair <const std::string, const Waypoint>& data);
+	void AddWaypoint(const std::pair<const std::string, const Waypoint>& data);
+	void RemoveWaypoint(const std::pair<const std::string, const Waypoint>& data);
 
 private:
-	static constexpr int m_maxWaypoints = 8;
-
 	Ui::MainWindow m_ui;
+	TomcatConnector m_connector;
+
+	static constexpr int m_maxWaypoints = 8;
+	std::shared_ptr<spdlog::logger> m_logger;
+
 	std::list<std::pair<const std::string, const Waypoint>> m_waypoints;
 	QList<QString> m_availableWaypoints;
 };
