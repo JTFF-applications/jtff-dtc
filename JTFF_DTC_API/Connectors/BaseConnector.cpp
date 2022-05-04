@@ -23,9 +23,11 @@ BaseConnector::~BaseConnector()
 	delete m_socket, m_host;
 }
 
-void BaseConnector::sendKey(const std::string& key, const bool& raw, const int& delayBefore, const int& delayAfter)
+void BaseConnector::SendKey(const std::string& key, const bool& raw, const int& delayBefore, const int& delayAfter)
 {
 	unsigned int length = 0;
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(delayBefore));
 	if (!raw) {
 		length = m_socket->write((key + " 1\n").c_str());
 		std::this_thread::sleep_for(std::chrono::milliseconds(250));
