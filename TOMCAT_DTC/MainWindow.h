@@ -6,8 +6,6 @@
 #include <utility>
 
 #include <Utilities/Waypoint.h>
-#include <Windows/WaypointAddDialog.h>
-
 #include <Logger.h>
 
 #include "ui_MainWindow.h"

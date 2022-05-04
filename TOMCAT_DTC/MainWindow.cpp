@@ -1,5 +1,8 @@
 #include <QMessageBox>
 
+#include <Windows/WaypointAddDialog.h>
+#include <Utilities/CombatFlite.h>
+
 #include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
@@ -83,6 +86,26 @@ void MainWindow::on_export_file_clicked()
 
 void MainWindow::on_import_cf_clicked()
 {
+	CombatFlite cf;
+	cf.RequestFile();
+	cf.ReadFile();
+	const auto& waypoints = cf.GetWaypoints();
+
+	for (const auto& wpt : waypoints)
+	{
+		WaypointAddDialog wad(m_availableWaypoints);
+		wad.SetData(wpt);
+		wad.SetFunctions([&] {
+			const auto& data = wad.GetData();
+			if (data.first.empty())
+				return;
+			AddWaypoint(data);
+			wad.close();
+			}, [&] {
+				wad.close();
+			});
+		wad.exec();
+	}
 }
 
 void MainWindow::on_export_ac_clicked()
@@ -96,7 +119,7 @@ const std::pair<const std::string, const Waypoint> MainWindow::FindWaypoint(cons
 		});
 }
 
-void MainWindow::AddWaypoint(const std::pair <const std::string, const Waypoint>& data)
+void MainWindow::AddWaypoint(const std::pair<const std::string, const Waypoint>& data)
 {
 	m_waypoints.push_back(data);
 	m_ui.wpt_list->addItem(std::format("{} - {}", data.first, data.second.GetName()).c_str());
