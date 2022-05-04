@@ -1,7 +1,7 @@
 #include "FlightSelector.h"
 
-FlightSelector::FlightSelector(QWidget* parent)
-	: QWidget(parent)
+FlightSelector::FlightSelector(QDialog* parent)
+	: QDialog(parent)
 {
 	m_ui.setupUi(this);
 }

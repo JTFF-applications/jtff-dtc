@@ -1,16 +1,16 @@
 #pragma once
 
-#include <QWidget>
+#include <QDialog>
 
 #include "../Logger.h"
 #include "ui_FlightSelector.h"
 
-class JTFF_DTC_API_EXPORT FlightSelector : public QWidget
+class JTFF_DTC_API_EXPORT FlightSelector : public QDialog
 {
 	Q_OBJECT
 
 public:
-	FlightSelector(QWidget* parent = nullptr);
+	FlightSelector(QDialog* parent = nullptr);
 	~FlightSelector();
 
 	void SetFlights(const std::list<std::string> flights);

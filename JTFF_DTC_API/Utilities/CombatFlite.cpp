@@ -31,7 +31,7 @@ void CombatFlite::RequestFile()
 	if (!file)
 	{
 		m_logger->error("Could not open {} for writing", "temp/mission.xml");
-		QMessageBox(QMessageBox::Icon::Critical, "Could not create file in app/temp folder", "Please check if temp folder exists in mai directory !").exec();
+		QMessageBox(QMessageBox::Icon::Critical, "Could not create file in app/temp folder", "Please check if temp folder exists in main directory !").exec();
 		return;
 	}
 	xmlFile.readContent(file);
@@ -69,7 +69,7 @@ void CombatFlite::RequestFlight()
 
 	QObject::connect(m_selector.GetButton(), &QPushButton::clicked, fn);
 	m_selector.SetFlights(flights);
-	m_selector.show();
+	m_selector.exec();
 }
 
 const std::list<std::string> CombatFlite::GetFlightsFromFile()
@@ -101,9 +101,11 @@ std::list<Waypoint> CombatFlite::GetWaypointsFromFile()
 		std::string lat = waypoint.node().select_node("Lat").node().child_value();
 		std::string lon = waypoint.node().select_node("Lon").node().child_value();
 		std::string alt = waypoint.node().select_node("Altitude").node().child_value();
+		std::string name = waypoint.node().select_node("Name").node().child_value();
 
 		Waypoint wp = Waypoint::FromDecimalCoordinates(lat, lon);
 		wp.SetAltitude(std::atoi(alt.c_str()));
+		wp.SetName(name);
 
 		waypoints.push_back(wp);
 	}
