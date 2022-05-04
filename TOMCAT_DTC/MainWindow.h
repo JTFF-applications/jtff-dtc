@@ -30,9 +30,14 @@ private slots:
 	void on_export_ac_clicked();
 
 private:
+	const std::pair<const std::string, const Waypoint> FindWaypoint(const std::string& ui_text);
+	void AddWaypoint(const std::pair <const std::string, const Waypoint>& data);
+	void RemoveWaypoint(const std::pair <const std::string, const Waypoint>& data);
+
+private:
 	static constexpr int m_maxWaypoints = 8;
 
 	Ui::MainWindow m_ui;
-	std::list<std::pair<std::string, Waypoint>> m_waypoints;
-	WaypointAddDialog m_wpt_dialog;
+	std::list<std::pair<const std::string, const Waypoint>> m_waypoints;
+	QList<QString> m_availableWaypoints;
 };
