@@ -18,9 +18,9 @@ void CombatFlite::RequestFile()
 	std::string filePath = QFileDialog::getOpenFileName(nullptr, "Select path for file", "", "CombatFlight Files (*.cf)").toStdString();
 	if (filePath.empty() || !std::filesystem::exists(filePath) || std::filesystem::path(filePath).extension() != ".cf")
 	{
-		m_logger->error("{} is not  avalid cf file !", filePath);
-		QMessageBox(QMessageBox::Icon::Critical, "Selected is not valid readable !", "Please select a valid file").exec();
-		return RequestFile();
+		m_logger->error("{} is not a valid cf file !", filePath);
+		QMessageBox(QMessageBox::Icon::Critical, "Error", "Please select a valid cf file").exec();
+		return;
 	}
 
 	libzippp::ZipArchive zf(filePath);
@@ -31,7 +31,7 @@ void CombatFlite::RequestFile()
 	if (!file)
 	{
 		m_logger->error("Could not open {} for writing", "temp/mission.xml");
-		QMessageBox(QMessageBox::Icon::Critical, "Could not create file in app/temp folder", "Please check if temp folder exists in main directory !").exec();
+		QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't create file in app/temp. Please check if temp folder exists in main directory.").exec();
 		return;
 	}
 	xmlFile.readContent(file);
@@ -42,17 +42,21 @@ void CombatFlite::RequestFile()
 	if (!pugi::xml_document().load_file("temp/mission.xml"))
 	{
 		m_logger->error("{} is not  avalid cf file !", filePath);
-		QMessageBox(QMessageBox::Icon::Critical, "Selected is not valid readable !", "Please select a valid file").exec();
-		return RequestFile();
+		QMessageBox(QMessageBox::Icon::Critical, "Error", "Please select a valid or readable cf file.").exec();
+		return;
 	}
 
+	m_logger->info("CF file selected : {}", filePath);
 	m_path = "temp/mission.xml";
 }
 
 void CombatFlite::ReadFile()
 {
 	if (m_path.empty())
-		RequestFile();
+	{
+		m_logger->error("CombatFlite::ReadFile called with empty cf file !");
+		return;
+	}
 
 	RequestFlight();
 }
@@ -65,6 +69,8 @@ void CombatFlite::RequestFlight()
 		m_selector.hide();
 		m_flight = m_selector.GetSelected();
 		m_waypoints = GetWaypointsFromFile();
+		m_logger->info("Selected CF flight {}", m_flight);
+		m_logger->info("Found {} waypoints", m_waypoints.size());
 	};
 
 	QObject::connect(m_selector.GetButton(), &QPushButton::clicked, fn);
@@ -80,6 +86,7 @@ const std::list<std::string> CombatFlite::GetFlightsFromFile()
 	doc.load_file(m_path.c_str());
 
 	pugi::xpath_node_set routes = doc.select_nodes("/Mission/Routes/Route");
+	m_logger->info("Found {} routes", routes.size());
 	for (pugi::xpath_node route : routes)
 	{
 		pugi::xpath_node name = route.node().select_node("Name");

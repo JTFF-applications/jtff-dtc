@@ -2,8 +2,8 @@
 
 #include "Coordinate.h"
 
-const std::regex Coordinate::m_firstValidationRegex = std::regex("^[NS]([0-8][0-9](\\.[0-5]\\d){2}|90(\\.00){2})$");
-const std::regex Coordinate::m_secondValidationRegex = std::regex("^[EW]((0\\d\\d|1[0-7]\\d)(\\.[0-5]\\d){2}|180(\\.00){2})$");
+const std::regex Coordinate::m_firstValidationRegex = std::regex("^[NS]([0-8][0-9](\\.\\d\\d)\\.([0-9]{1}|[0-9]{3}))$");
+const std::regex Coordinate::m_secondValidationRegex = std::regex("^[EW]((0\\d\\d|1\\d\\d)(\\.\\d\\d)\\.([0-9]{1}|[0-9]{3}))$");
 
 long double GetDecimal(const long double& nb)
 {
@@ -45,11 +45,15 @@ Coordinate Coordinate::FromDecimal(const std::string& coord, const Type& type)
 	unsigned int floatingSize = coord.size() - coord.find_last_of('.');
 	std::stringstream dms;
 
-	dms << std::to_string(static_cast<unsigned int>(std::truncl(number))) + '.'; // Degrees
+	dms << std::right << std::setfill('0') << std::setw((type == Type::Lattitude) ? 2 : 3);
+	dms << std::to_string(static_cast<unsigned int>(std::truncl(number))); // Degrees
+	dms << '.';
 	number = GetDecimal(number) * 60;
-	dms << std::to_string(static_cast<unsigned int>(std::truncl(number))) + '.'; // Minutes
+	dms << std::right << std::setfill('0') << std::setw(2);
+	dms << std::to_string(static_cast<unsigned int>(std::truncl(number))); // Minutes
+	dms << '.';
 	number = GetDecimal(number) * 60;
-	dms << std::left << std::setfill('0') << std::setw(2);
+	dms << std::left << std::setfill('0') << std::setw(3);
 	dms << std::to_string(static_cast<unsigned int>(std::truncl(number))); // Seconds
 
 	return Coordinate(((type == Type::Lattitude) ? isPositive ? "N" : "S" : isPositive ? "E" : "W") + dms.str());
