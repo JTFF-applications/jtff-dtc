@@ -36,6 +36,8 @@ void TomcatConnector::EnterWaypoints(std::list<std::pair<const std::string, cons
 
 void TomcatConnector::EnterWaypoint(std::pair<const std::string, const Waypoint> waypoint)
 {
+	m_logger->info("Entering {}", waypoint.first);
+
 	SetCAP("TAC DATA");
 	SetCAP(std::format("CAP_{}", WpToCap(waypoint.first)));
 
@@ -80,10 +82,14 @@ void TomcatConnector::EnterWaypoint(std::pair<const std::string, const Waypoint>
 		EnterNumber(waypoint.second.GetHeading());
 		SetCAP("ENTER");
 	}
+
+	m_logger->info("{} entered", waypoint.first);
 }
 
 void TomcatConnector::EnterNavgrid(const Navgrid& navgrid)
 {
+	m_logger->info("Entering navgrid.");
+
 	SetTID("GND STAB");
 	SetCAP("D/L");
 	SetCAP("CAP_3");
@@ -119,6 +125,8 @@ void TomcatConnector::EnterNavgrid(const Navgrid& navgrid)
 	SetCAP("8");
 	EnterNumber(navgrid.GetBearing());
 	SetCAP("ENTER");
+
+	m_logger->info("Navgrid entered.");
 }
 
 void TomcatConnector::SetCAP(const std::string& num)

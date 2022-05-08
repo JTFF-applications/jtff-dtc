@@ -393,14 +393,14 @@
   <widget class="QPushButton" name="modify_wpy_btn">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>240</x>
      <y>680</y>
-     <width>31</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>M</string>
+    <string>Modify</string>
    </property>
   </widget>
   <widget class="QLabel" name="navgrid_lon_label">

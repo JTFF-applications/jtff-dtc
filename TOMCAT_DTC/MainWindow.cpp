@@ -30,6 +30,13 @@ MainWindow::MainWindow(QWidget* parent)
 	QObject::connect(m_ui.export_file_btn, &QPushButton::clicked, this, &MainWindow::on_export_file_clicked);
 	QObject::connect(m_ui.import_cf_btn, &QPushButton::clicked, this, &MainWindow::on_import_cf_clicked);
 	QObject::connect(m_ui.export_ac_btn, &QPushButton::clicked, this, &MainWindow::on_export_ac_clicked);
+
+	m_logger->info("App Started !");
+}
+
+MainWindow::~MainWindow()
+{
+	m_logger->info("App closed !");
 }
 
 void MainWindow::on_add_wpt_clicked()
@@ -47,6 +54,7 @@ void MainWindow::on_add_wpt_clicked()
 			return;
 		AddWaypoint(data);
 		wad.close();
+		m_logger->info("Waypoint {} added", data.first);
 		},
 		[&] {
 			wad.close();
@@ -59,6 +67,7 @@ void MainWindow::on_rm_wpt_clicked()
 	for (const auto& item : m_ui.wpt_list->selectedItems())
 	{
 		RemoveWaypoint(FindWaypoint(item->text().toStdString()));
+		m_logger->info("Waypoint {} removed", item->text().toStdString());
 	}
 }
 
@@ -78,6 +87,7 @@ void MainWindow::on_modify_wpt_clicked()
 				return;
 			RemoveWaypoint(wpt);
 			AddWaypoint(data);
+			m_logger->info("Waypoint {} modified", data.first);
 			wad.close();
 			}, [&] {
 				m_availableWaypoints.removeAll(wpt.first.c_str());
@@ -118,14 +128,14 @@ void MainWindow::on_import_file_clicked()
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str(), pugi::parse_default | pugi::parse_declaration);
 	if (!result)
 	{
-		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "Failed to parse XML file !", QMessageBox::Ok).exec();
+		QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "Please select a valid file.", QMessageBox::Ok).exec();
 		m_logger->error(std::format("Failed to open selected file : {} ! Aborting...", fileName));
 		return;
 	}
 
 	if (std::string(doc.document_element().attribute("name").value()) != "F14")
 	{
-		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "This file is not for the F14 !", QMessageBox::Ok).exec();
+		QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "This file is not for the F14.", QMessageBox::Ok).exec();
 		m_logger->error("This file is not for the tomcat ! You can't open it !");
 		return;
 	}
@@ -140,6 +150,7 @@ void MainWindow::on_import_file_clicked()
 		m_ui.navgrid_bearing->setValue(navgrid.node().attribute("bearing").as_int());
 		m_ui.navgrid_width->setValue(navgrid.node().attribute("width").as_int());
 		m_ui.navgrid_sectors->setValue(navgrid.node().attribute("sectors").as_int());
+		m_logger->info("Navgrid imported");
 	}
 
 	// Waypoints
@@ -163,6 +174,7 @@ void MainWindow::on_import_file_clicked()
 			wpt.SetHeading(hdg);
 
 			AddWaypoint(std::make_pair(type, wpt));
+			m_logger->info("Waypoint {} imported", type);
 		}
 		catch (const std::exception& e)
 		{
@@ -212,7 +224,7 @@ void MainWindow::on_export_file_clicked()
 
 	if (!doc.save_file(fileName.c_str()))
 	{
-		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "Failed to save xml file !", QMessageBox::Ok).exec();
+		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "Failed to save xml file. Check folder write access.", QMessageBox::Ok).exec();
 		m_logger->error(std::format("Failed to save xml file : {} !", fileName));
 	}
 }
@@ -233,6 +245,7 @@ void MainWindow::on_import_cf_clicked()
 			if (data.first.empty())
 				return;
 			AddWaypoint(data);
+			m_logger->info("Waypoint {} imported from CF", data.first);
 			wad.close();
 			}, [&] {
 				wad.close();
@@ -243,9 +256,19 @@ void MainWindow::on_import_cf_clicked()
 
 void MainWindow::on_export_ac_clicked()
 {
-	Navgrid navgrid(m_ui.navgrid_lat->text().toStdString(), m_ui.navgrid_lon->text().toStdString(), m_ui.navgrid_width->value(), m_ui.navgrid_bearing->value(), m_ui.navgrid_sectors->value());
 	if (m_ui.navgrid_btn->isChecked())
-		m_connector.EnterNavgrid(navgrid);
+	{
+		try
+		{
+			Navgrid navgrid(m_ui.navgrid_lat->text().toStdString(), m_ui.navgrid_lon->text().toStdString(), m_ui.navgrid_width->value(), m_ui.navgrid_bearing->value(), m_ui.navgrid_sectors->value());
+			m_connector.EnterNavgrid(navgrid);
+		}
+		catch (const std::exception&)
+		{
+			QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "Failed to enter navgrid.", QMessageBox::Ok).exec();
+			return;
+		}
+	}
 	m_connector.EnterWaypoints(m_waypoints);
 }
 
