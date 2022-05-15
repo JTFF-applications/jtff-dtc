@@ -22,6 +22,9 @@
     <ClCompile Include="Windows\WaypointAddDialog.cpp">
       <Filter>Source files\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\BaseXmlParser.cpp">
+      <Filter>Source files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jtff_dtc_api_global.h">
@@ -40,6 +43,9 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\Waypoint.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\BaseXmlParser.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

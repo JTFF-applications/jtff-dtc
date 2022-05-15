@@ -108,6 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Utilities\BaseXmlParser.cpp" />
     <ClCompile Include="Utilities\CombatFlite.cpp" />
     <ClCompile Include="Utilities\Coordinate.cpp" />
     <ClCompile Include="Utilities\Waypoint.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="jtff_dtc_api_global.h" />
     <ClInclude Include="Logger.h" />
     <ClCompile Include="Connectors\BaseConnector.cpp" />
+    <ClInclude Include="Utilities\BaseXmlParser.h" />
     <ClInclude Include="Utilities\CombatFlite.h" />
     <ClInclude Include="Utilities\Coordinate.h" />
     <ClInclude Include="Utilities\Waypoint.h" />
