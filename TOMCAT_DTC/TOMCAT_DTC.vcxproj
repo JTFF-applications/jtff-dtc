@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="Navgrid.cpp" />
     <ClCompile Include="TomcatConnector.cpp" />
+    <ClCompile Include="TomcatXmlParser.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Navgrid.h" />
     <ClInclude Include="TomcatConnector.h" />
+    <ClInclude Include="TomcatXmlParser.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="VF84_LOGO.png" />

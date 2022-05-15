@@ -10,6 +10,7 @@
 
 #include "Navgrid.h"
 #include "MainWindow.h"
+#include "TomcatXmlParser.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent), m_logger(Logger::Get()), m_connector("127.0.0.1", 7778)
@@ -120,112 +121,67 @@ void MainWindow::on_navgrid_coordinates_changed()
 
 void MainWindow::on_import_file_clicked()
 {
-	std::string fileName = QFileDialog::getOpenFileName(this, "Import Waypoints", "", "XML File (*.xml)").toStdString();
-	if (fileName.empty() && std::filesystem::exists(fileName))
+	const std::string fileName = QFileDialog::getOpenFileName(this, "Open XML file", "", "XML files (*.xml)").toStdString();
+	if (fileName.empty())
 		return;
 
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file(fileName.c_str(), pugi::parse_default | pugi::parse_declaration);
-	if (!result)
+	try
 	{
-		QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "Please select a valid file.", QMessageBox::Ok).exec();
-		m_logger->error(std::format("Failed to open selected file : {} ! Aborting...", fileName));
-		return;
-	}
-
-	if (std::string(doc.document_element().attribute("name").value()) != "F14")
-	{
-		QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "This file is not for the F14.", QMessageBox::Ok).exec();
-		m_logger->error("This file is not for the tomcat ! You can't open it !");
-		return;
-	}
-
-	// Navgrid
-	pugi::xpath_node navgrid = doc.select_single_node("/Aircraft/Navgrid");
-	if (navgrid)
-	{
-		m_ui.navgrid_btn->setChecked(navgrid.node().attribute("enabled").as_bool());
-		m_ui.navgrid_lat->setText(navgrid.node().attribute("lattitude").as_string());
-		m_ui.navgrid_lon->setText(navgrid.node().attribute("longitude").as_string());
-		m_ui.navgrid_bearing->setValue(navgrid.node().attribute("bearing").as_int());
-		m_ui.navgrid_width->setValue(navgrid.node().attribute("width").as_int());
-		m_ui.navgrid_sectors->setValue(navgrid.node().attribute("sectors").as_int());
+		TomcatXmlParser parser("F14", fileName);
+		Navgrid navgrid = parser.GetNavgrid();
+		m_ui.navgrid_btn->setChecked(navgrid.GetChecked());
+		m_ui.navgrid_lat->setText(navgrid.GetLattitude().c_str());
+		m_ui.navgrid_lon->setText(navgrid.GetLongitude().c_str());
+		m_ui.navgrid_bearing->setValue(navgrid.GetBearing());
+		m_ui.navgrid_width->setValue(navgrid.GetWidth());
+		m_ui.navgrid_sectors->setValue(navgrid.GetSectors());
 		m_logger->info("Navgrid imported");
-	}
 
-	// Waypoints
-	pugi::xpath_node_set wpts = doc.select_nodes("/Aircraft/Waypoints/Waypoint");
-	for (const auto& wpt : wpts)
-	{
-		std::string type = wpt.node().attribute("type").as_string();
-		std::string lat = wpt.node().attribute("lattitude").as_string();
-		std::string lon = wpt.node().attribute("longitude").as_string();
-		std::string name = wpt.node().attribute("name").as_string();
-		int alt = wpt.node().attribute("altitude").as_int();
-		int spd = wpt.node().attribute("speed").as_int();
-		int hdg = wpt.node().attribute("heading").as_int();
-
-		try
+		const std::list<std::pair<const std::string, const Waypoint>> waypoints = parser.GetWaypoints();
+		for (const auto& wpt : waypoints)
 		{
-			Waypoint wpt = Waypoint::FromStringCoordinates(lat, lon);
-			wpt.SetName(name);
-			wpt.SetAltitude(alt);
-			wpt.SetSpeed(spd);
-			wpt.SetHeading(hdg);
-
-			AddWaypoint(std::make_pair(type, wpt));
-			m_logger->info("Waypoint {} imported", type);
+			AddWaypoint(wpt);
+			m_logger->info("Waypoint {} imported", wpt.first);
 		}
-		catch (const std::exception& e)
+	}
+	catch (const BaseXmlParser::bad_parser& except)
+	{
+		switch (except.error())
 		{
-			QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", std::format("Failed to parse waypoint : {} !", name).c_str(), QMessageBox::Ok).exec();
-			m_logger->error(std::format("Failed to parse waypoint : {} ! Error : {}.", name, e.what()));
+		case BaseXmlParser::ERROR_TYPE::BAD_FILE:
+			QMessageBox(QMessageBox::Icon::Warning, "XML Error", "No file found !", QMessageBox::Ok).exec();
+			m_logger->critical("File {} not found or not readable", fileName);
+			break;
+		case BaseXmlParser::ERROR_TYPE::BAD_AIRCRAFT:
+			QMessageBox(QMessageBox::Icon::Warning, "XML Error", "Bad aircraft (not F14) !", QMessageBox::Ok).exec();
+			m_logger->critical("Bad aircraft in file {}", fileName);
+			break;
 		}
 	}
 }
 
 void MainWindow::on_export_file_clicked()
 {
-	std::string fileName = QFileDialog::getSaveFileName(this, "Export Waypoints", "", "XML File (*.xml)").toStdString();
-	if (fileName.empty())
-		return;
+	TomcatXmlParser parser("F14");
 
-	pugi::xml_document doc;
-	pugi::xml_node declaration = doc.append_child(pugi::node_declaration);
-	declaration.append_attribute("version") = "1.0";
-	declaration.append_attribute("encoding") = "ISO-8859-1";
-	declaration.append_attribute("standalone") = "yes";
+	const bool isChecked = m_ui.navgrid_btn->isChecked();
+	const std::string navgrid_lattitude = m_ui.navgrid_lat->text().toStdString();
+	const std::string navgrid_longitude = m_ui.navgrid_lon->text().toStdString();
+	const int navgrid_bearing = m_ui.navgrid_bearing->value();
+	const int navgrid_width = m_ui.navgrid_width->value();
+	const int navgrid_sectors = m_ui.navgrid_sectors->value();
 
-	pugi::xml_node root = doc.append_child("Aircraft");
-	root.append_attribute("name") = "F14";
-
-	// Navgrid
-	pugi::xml_node navgrid = root.append_child("Navgrid");
-	navgrid.append_attribute("enabled") = m_ui.navgrid_btn->isChecked();
-	navgrid.append_attribute("lattitude") = m_ui.navgrid_lat->text().toStdString().c_str();
-	navgrid.append_attribute("longitude") = m_ui.navgrid_lon->text().toStdString().c_str();
-	navgrid.append_attribute("bearing") = m_ui.navgrid_bearing->value();
-	navgrid.append_attribute("width") = m_ui.navgrid_width->value();
-	navgrid.append_attribute("sectors") = m_ui.navgrid_sectors->value();
-
-	// Waypoints
-	pugi::xml_node wpts = root.append_child("Waypoints");
-	for (const auto& wpt : m_waypoints)
+	Navgrid navgrid(isChecked, navgrid_lattitude, navgrid_longitude, navgrid_width, navgrid_bearing, navgrid_sectors);
+	try
 	{
-		pugi::xml_node wpt_node = wpts.append_child("Waypoint");
-		wpt_node.append_attribute("type") = wpt.first.c_str();
-		wpt_node.append_attribute("lattitude") = wpt.second.GetLattitude().c_str();
-		wpt_node.append_attribute("longitude") = wpt.second.GetLongitude().c_str();
-		wpt_node.append_attribute("name") = wpt.second.GetName().c_str();
-		wpt_node.append_attribute("altitude") = wpt.second.GetAltitude();
-		wpt_node.append_attribute("speed") = wpt.second.GetSpeed();
-		wpt_node.append_attribute("heading") = wpt.second.GetHeading();
+		parser.WriteNavgrid(navgrid);
+		parser.WriteWaypoints(m_waypoints);
 	}
-
-	if (!doc.save_file(fileName.c_str()))
+	catch (const BaseXmlParser::bad_parser& except)
 	{
-		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "Failed to save xml file. Check folder write access.", QMessageBox::Ok).exec();
-		m_logger->error(std::format("Failed to save xml file : {} !", fileName));
+		m_logger->error("Error while writing the XML file : {}", except.what());
+		QMessageBox(QMessageBox::Icon::Critical, "XML Error", "Error while writing the XML file !", QMessageBox::Ok).exec();
+		return;
 	}
 }
 
@@ -260,7 +216,7 @@ void MainWindow::on_export_ac_clicked()
 	{
 		try
 		{
-			Navgrid navgrid(m_ui.navgrid_lat->text().toStdString(), m_ui.navgrid_lon->text().toStdString(), m_ui.navgrid_width->value(), m_ui.navgrid_bearing->value(), m_ui.navgrid_sectors->value());
+			Navgrid navgrid(true, m_ui.navgrid_lat->text().toStdString(), m_ui.navgrid_lon->text().toStdString(), m_ui.navgrid_width->value(), m_ui.navgrid_bearing->value(), m_ui.navgrid_sectors->value());
 			m_connector.EnterNavgrid(navgrid);
 		}
 		catch (const std::exception&)

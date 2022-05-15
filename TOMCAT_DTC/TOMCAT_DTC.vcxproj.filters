@@ -52,12 +52,18 @@
     <ClCompile Include="Navgrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TomcatXmlParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TomcatConnector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Navgrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TomcatXmlParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
