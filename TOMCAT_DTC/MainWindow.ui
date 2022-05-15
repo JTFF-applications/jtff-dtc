@@ -124,6 +124,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="text">
+    <string>N00.00.000</string>
+   </property>
   </widget>
   <widget class="QSpinBox" name="navgrid_sectors">
    <property name="geometry">
@@ -429,6 +432,9 @@
      <width>161</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>E000.00.000</string>
    </property>
   </widget>
   <widget class="QPushButton" name="navgrid_validate_btn">

@@ -45,6 +45,7 @@ void MainWindow::on_add_wpt_clicked()
 	if (m_waypoints.size() + 1 > m_maxWaypoints)
 	{
 		QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "You can't enter more waypoint for the tomcat !", QMessageBox::Ok).exec();
+		m_logger->info("You can't enter more waypoint for the tomcat !");
 		return;
 	}
 
@@ -140,6 +141,13 @@ void MainWindow::on_import_file_clicked()
 		const std::list<std::pair<const std::string, const Waypoint>> waypoints = parser.GetWaypoints();
 		for (const auto& wpt : waypoints)
 		{
+			if (m_waypoints.size() + 1 > m_maxWaypoints)
+			{
+				QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "You can't enter more waypoint for the tomcat !", QMessageBox::Ok).exec();
+				m_logger->info("You can't enter more waypoint for the tomcat !");
+				return;
+			}
+
 			AddWaypoint(wpt);
 			m_logger->info("Waypoint {} imported", wpt.first);
 		}
@@ -194,6 +202,13 @@ void MainWindow::on_import_cf_clicked()
 
 	for (const auto& wpt : waypoints)
 	{
+		if (m_waypoints.size() + 1 > m_maxWaypoints)
+		{
+			QMessageBox(QMessageBox::Icon::Warning, "Tomcat Error", "You can't enter more waypoint for the tomcat !", QMessageBox::Ok).exec();
+			m_logger->info("You can't enter more waypoint for the tomcat !");
+			return;
+		}
+
 		WaypointAddDialog wad(m_availableWaypoints);
 		wad.SetData(wpt);
 		wad.SetFunctions([&] {
