@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	m_ui.setupUi(this);
 
-	m_availableWaypoints = QList<QString>::fromVector({ "WP1", "WP2", "WP3", "FP", "IP", "HB", "DP", "HA" });
+	m_availableWaypoints = QList<QString>::fromVector({ "WP1", "WP2", "WP3", "FP", "IP", "HB", "DP", "HA", "ST" });
 
 	QObject::connect(m_ui.add_wpt_btn, &QPushButton::clicked, this, &MainWindow::on_add_wpt_clicked);
 	QObject::connect(m_ui.rm_wpt_btn, &QPushButton::clicked, this, &MainWindow::on_rm_wpt_clicked);

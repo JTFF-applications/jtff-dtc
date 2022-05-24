@@ -41,7 +41,7 @@ private:
 	Ui::MainWindow m_ui;
 	TomcatConnector m_connector;
 
-	static constexpr int m_maxWaypoints = 8;
+	static constexpr int m_maxWaypoints = 9;
 	std::shared_ptr<spdlog::logger> m_logger;
 
 	std::list<std::pair<const std::string, const Waypoint>> m_waypoints;
