@@ -68,8 +68,9 @@ void MainWindow::on_rm_wpt_clicked()
 {
 	for (const auto& item : m_ui.wpt_list->selectedItems())
 	{
-		RemoveWaypoint(FindWaypoint(item->text().toStdString()));
-		m_logger->info("Waypoint {} removed", item->text().toStdString());
+        std::string wpt = item->text().toStdString();
+        RemoveWaypoint(FindWaypoint(wpt));
+        m_logger->info("Waypoint {} removed", wpt);
 	}
 }
 
