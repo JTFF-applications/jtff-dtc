@@ -1,0 +1,5 @@
+{
+  "name": "jtff-dtc",
+  "description": "DTC for F-14 Tomcat developped by VF84",
+  "dependencies": [ "spdlog", "pugixml", "libzippp" ]
+}
