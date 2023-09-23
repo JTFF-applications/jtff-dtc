@@ -41,6 +41,9 @@ private:
 	Ui::MainWindow m_ui;
 	TomcatConnector m_connector;
 
+    std::thread* m_uploadThread;
+    bool m_isUploading = false;
+
 	static constexpr int m_maxWaypoints = 9;
 	std::shared_ptr<spdlog::logger> m_logger;
 

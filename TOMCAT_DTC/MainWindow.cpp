@@ -228,20 +228,41 @@ void MainWindow::on_import_cf_clicked()
 
 void MainWindow::on_export_ac_clicked()
 {
+    if (!m_isUploading)
+    {
+        m_isUploading = true;
+        m_ui.export_ac_btn->setText("Cancel");
+        // Memory leak here, reallocated std::thread at each export press, but failed to find a better solution fast.
+        // I don't want to pass hours on this.
+        m_uploadThread = new std::thread([&]()
+        {
 	if (m_ui.navgrid_btn->isChecked())
 	{
 		try
 		{
-			Navgrid navgrid(true, m_ui.navgrid_lat->text().toStdString(), m_ui.navgrid_lon->text().toStdString(), m_ui.navgrid_width->value(), m_ui.navgrid_bearing->value(), m_ui.navgrid_sectors->value());
+                    Navgrid navgrid(true,
+                                    m_ui.navgrid_lat->text().toStdString(),
+                                    m_ui.navgrid_lon->text().toStdString(),
+                                    m_ui.navgrid_width->value(),
+                                    m_ui.navgrid_bearing->value(),
+                                    m_ui.navgrid_sectors->value());
 			m_connector.EnterNavgrid(navgrid);
-		}
-		catch (const std::exception&)
+                } catch (const std::exception&)
 		{
 			QMessageBox(QMessageBox::Icon::Critical, "Tomcat Error", "Failed to enter navgrid.", QMessageBox::Ok).exec();
 			return;
 		}
 	}
 	m_connector.EnterWaypoints(m_waypoints);
+            m_isUploading = false;
+            m_ui.export_ac_btn->setText("Export to Aircraft");
+        });
+    } else
+    {
+        m_isUploading = false;
+        TerminateThread(m_uploadThread->native_handle(), 1);
+        m_ui.export_ac_btn->setText("Export to Aircraft");
+    }
 }
 
 const std::pair<const std::string, const Waypoint> MainWindow::FindWaypoint(const std::string& ui_text)
